@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-// Empty for fresh start
+Route::get('/', fn () => Inertia::render('landing'))->name('home');
 
-
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', fn () => Inertia::render('dashboard'))->name('dashboard');
+});
