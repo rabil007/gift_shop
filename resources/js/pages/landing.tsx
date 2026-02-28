@@ -1,5 +1,5 @@
 import { Link, useForm, usePage } from '@inertiajs/react';
-import { Gift } from 'lucide-react';
+import { Gift, ShoppingCart } from 'lucide-react';
 import {
     HeroSection,
     CollectionsSection,
@@ -44,6 +44,12 @@ export default function Landing() {
                         Aura<span className="font-medium text-neutral-500">Gifts</span>
                     </span>
                 </Link>
+                <div className="flex items-center gap-2 sm:gap-4">
+                    <Link href="/cart" className="relative p-2 text-neutral-800 hover:text-[var(--landing-accent)] transition-colors active:scale-95 touch-target flex items-center justify-center">
+                        <ShoppingCart className="h-5 w-5" />
+                        <span className="absolute top-0 right-0 h-4 w-4 bg-[var(--landing-accent)] text-white text-[10px] font-bold flex items-center justify-center rounded-full transform translate-x-1/4 -translate-y-1/4 shadow-sm border border-white">2</span>
+                    </Link>
+                </div>
             </header>
 
             <main className="relative z-10 pt-4 sm:pt-12 md:pt-24 pb-24 sm:pb-32">
