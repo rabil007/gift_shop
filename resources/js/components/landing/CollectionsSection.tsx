@@ -11,19 +11,19 @@ const categories = [
 
 export function CollectionsSection() {
     return (
-        <section className="mt-32 px-6 max-w-6xl mx-auto">
-            <div className="flex items-center justify-between mb-6 px-4">
+        <section className="mt-20 sm:mt-24 md:mt-32 px-4 sm:px-6 max-w-6xl mx-auto">
+            <div className="flex items-center justify-between mb-4 sm:mb-6 px-2 sm:px-4">
                 <h2 className="text-xs font-bold tracking-[0.15em] text-neutral-500 uppercase">Our Collections</h2>
                 <span className="text-xs font-medium text-neutral-500">{categories.length} curations</span>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                 {categories.map((cat) => {
                     const Icon = cat.icon;
                     return (
                         <Link
                             key={cat.title}
                             href={cat.href}
-                            className="group rounded-2xl bg-white/70 backdrop-blur-xl border border-white shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all p-4 flex items-center justify-between hover:scale-[1.02] duration-300"
+                            className="group rounded-2xl bg-white/70 backdrop-blur-xl border border-white shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all p-4 flex items-center justify-between hover:scale-[1.02] active:scale-[0.99] duration-300 touch-target min-h-[56px]"
                         >
                             <div className="flex items-center gap-4">
                                 <div className="h-10 w-10 shrink-0 flex items-center justify-center rounded-full bg-slate-50 border border-slate-100/50">

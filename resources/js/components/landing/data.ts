@@ -1,3 +1,11 @@
+export const heroImages = [
+    { src: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=1200', alt: 'Luxury Gift Concierge Box', featuredTitle: 'The Royal Collection' },
+    { src: '/images/landing/flowers.png', alt: 'Floral Gifts', featuredTitle: 'The Royal Orchids' },
+    { src: '/images/landing/cakes.png', alt: 'Gourmet Cakes', featuredTitle: 'Signature Saffron Cake' },
+    { src: '/images/landing/personalized.png', alt: 'Personalized Gifts', featuredTitle: 'Luxury Date Collection' },
+    { src: '/images/landing/plants.png', alt: 'Botanical Arrangements', featuredTitle: 'Desert Rose Arrangement' },
+];
+
 export const featuredItems = [
     { title: 'The Royal Orchids', price: 'AED 399', image: '/images/landing/flowers.png', Tag: 'Bestseller' as const },
     { title: 'Signature Saffron Cake', price: 'AED 299', image: '/images/landing/cakes.png', Tag: 'New' as const },

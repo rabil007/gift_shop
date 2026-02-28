@@ -4,19 +4,19 @@ import { featuredItems } from './data';
 
 export function FeaturedSection() {
     return (
-        <section className="mt-32 px-6 max-w-6xl mx-auto">
-            <div className="flex items-center justify-between mb-8 px-4">
+        <section className="mt-20 sm:mt-24 md:mt-32 px-4 sm:px-6 max-w-6xl mx-auto">
+            <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 mb-6 px-2 sm:px-4">
                 <div>
-                    <h2 className="text-3xl font-serif font-bold text-neutral-900">Featured Exclusives</h2>
-                    <p className="mt-2 text-sm text-neutral-500 font-medium">Hand-selected masterpieces for extraordinary gifting.</p>
+                    <h2 className="text-2xl sm:text-3xl font-serif font-bold text-neutral-900">Featured Exclusives</h2>
+                    <p className="mt-1 sm:mt-2 text-sm text-neutral-500 font-medium">Hand-selected masterpieces for extraordinary gifting.</p>
                 </div>
-                <a className="hidden md:flex items-center gap-1 text-sm font-semibold text-[var(--landing-accent)] hover:text-[var(--landing-accent-hover)] cursor-pointer">
+                <a className="hidden md:flex items-center gap-1 text-sm font-semibold text-[var(--landing-accent)] hover:text-[var(--landing-accent-hover)] cursor-pointer touch-target min-h-[44px] items-center">
                     View All <ArrowUp className="h-4 w-4 rotate-45" />
                 </a>
             </div>
             <Carousel>
                 {featuredItems.map((item, idx) => (
-                    <div key={idx} className="group relative w-[280px] md:w-[320px] shrink-0">
+                    <div key={idx} data-carousel-item className="group relative w-[260px] sm:w-[280px] md:w-[320px] shrink-0 [scroll-snap-align:start]">
                         <div className="relative aspect-[4/5] rounded-3xl overflow-hidden bg-white/50 backdrop-blur-md border border-white shadow-[0_4px_20px_rgb(0,0,0,0.04)] m-2 mb-4 p-2">
                             <div className="absolute inset-2 rounded-2xl overflow-hidden bg-neutral-100">
                                 {'Tag' in item && item.Tag && (

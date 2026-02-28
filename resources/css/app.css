@@ -158,3 +158,17 @@
     --landing-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
     --landing-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.08);
 }
+
+.landing-theme {
+    padding-top: env(safe-area-inset-top);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+@media (max-width: 768px) {
+    .landing-theme .touch-target {
+        min-height: 44px;
+        min-width: 44px;
+    }
+}
