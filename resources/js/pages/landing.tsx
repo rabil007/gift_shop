@@ -20,7 +20,7 @@ export default function Landing() {
     });
 
     return (
-        <div className="landing-theme min-h-screen bg-[var(--landing-bg)] font-sans text-[var(--landing-text)] selection:bg-[var(--landing-accent)] selection:text-white">
+        <div className="landing-theme min-h-screen overflow-x-hidden bg-[var(--landing-bg)] font-sans text-[var(--landing-text)] selection:bg-[var(--landing-accent)] selection:text-white">
             <style>{`
                 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;500;600&display=swap');
                 .font-serif { font-family: 'Playfair Display', serif; }

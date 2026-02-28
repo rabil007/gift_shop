@@ -31,7 +31,7 @@ export function FeaturedSection() {
                                 />
                             </div>
                             <div className="absolute inset-0 bg-white/40 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center rounded-3xl">
-                                <div className="bg-white text-neutral-900 px-6 py-3 rounded-full font-semibold shadow-lg translate-y-4 group-hover:translate-y-0 transition-all duration-500 flex items-center gap-2 cursor-pointer">
+                                <div className="bg-white text-neutral-900 px-6 py-3 rounded-full font-semibold shadow-lg translate-y-4 group-hover:translate-y-0 transition-all duration-500 flex items-center gap-2 cursor-pointer active:scale-95 touch-target">
                                     Quick View <ArrowUp className="h-4 w-4 rotate-45 text-[var(--landing-accent)]" />
                                 </div>
                             </div>

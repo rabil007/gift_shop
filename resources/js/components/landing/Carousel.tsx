@@ -22,7 +22,7 @@ export function Carousel({ children, className }: { children: ReactNode; classNa
             <button
                 type="button"
                 onClick={() => scroll('left')}
-                className="absolute left-2 sm:left-0 top-1/2 z-10 flex -translate-y-1/2 sm:-translate-x-1/2 rounded-full border border-black/5 bg-white/90 sm:bg-white/80 backdrop-blur-md p-2.5 sm:p-3 text-neutral-800 shadow-lg sm:shadow-xl transition-all hover:bg-white active:scale-95 touch-target min-h-[44px] min-w-[44px] items-center justify-center md:left-0 md:opacity-0 md:pointer-events-none md:group-hover/carousel:opacity-100 md:group-hover/carousel:pointer-events-auto"
+                className="hidden md:flex absolute left-2 sm:left-0 top-1/2 z-10 -translate-y-1/2 sm:-translate-x-1/2 rounded-full border border-black/5 bg-white/90 sm:bg-white/80 backdrop-blur-md p-2.5 sm:p-3 text-neutral-800 shadow-lg sm:shadow-xl transition-all hover:bg-white active:scale-95 touch-target min-h-[44px] min-w-[44px] items-center justify-center lg:left-0 opacity-0 pointer-events-none group-hover/carousel:opacity-100 group-hover/carousel:pointer-events-auto"
                 aria-label="Previous"
             >
                 <ChevronLeft className="h-5 w-5" />
@@ -30,7 +30,7 @@ export function Carousel({ children, className }: { children: ReactNode; classNa
             <button
                 type="button"
                 onClick={() => scroll('right')}
-                className="absolute right-2 sm:right-0 top-1/2 z-10 flex -translate-y-1/2 sm:translate-x-1/2 rounded-full border border-black/5 bg-white/90 sm:bg-white/80 backdrop-blur-md p-2.5 sm:p-3 text-neutral-800 shadow-lg sm:shadow-xl transition-all hover:bg-white active:scale-95 touch-target min-h-[44px] min-w-[44px] items-center justify-center md:right-0 md:opacity-0 md:pointer-events-none md:group-hover/carousel:opacity-100 md:group-hover/carousel:pointer-events-auto"
+                className="hidden md:flex absolute right-2 sm:right-0 top-1/2 z-10 -translate-y-1/2 sm:translate-x-1/2 rounded-full border border-black/5 bg-white/90 sm:bg-white/80 backdrop-blur-md p-2.5 sm:p-3 text-neutral-800 shadow-lg sm:shadow-xl transition-all hover:bg-white active:scale-95 touch-target min-h-[44px] min-w-[44px] items-center justify-center lg:right-0 opacity-0 pointer-events-none group-hover/carousel:opacity-100 group-hover/carousel:pointer-events-auto"
                 aria-label="Next"
             >
                 <ChevronRight className="h-5 w-5" />
