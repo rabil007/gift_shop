@@ -6,6 +6,7 @@ use Inertia\Inertia;
 
 Route::get('/', fn () => Inertia::render('landing'))->name('home');
 Route::get('/cart', fn () => Inertia::render('cart'))->name('cart');
+Route::get('/item/{id}', fn () => Inertia::render('item'))->name('item.show');
 
 Route::post('/enquiry', function () {
     $v = Validator::make(request()->all(), [
