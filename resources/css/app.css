@@ -143,3 +143,18 @@
         @apply bg-background text-foreground;
     }
 }
+
+/* Landing theme: palette tuned for luxury gift / hero imagery (warm creams, soft golds). Tweak --landing-* to match your hero image. */
+.landing-theme {
+    --landing-bg: #faf8f5;
+    --landing-surface: #f5f2ed;
+    --landing-hero-arch: #ebe6df;
+    --landing-accent: #b8956b;
+    --landing-accent-hover: #9a7a52;
+    --landing-accent-muted: #d4c4a8;
+    --landing-text: #1a1814;
+    --landing-muted: #5c564d;
+    --landing-border: rgba(26, 24, 20, 0.08);
+    --landing-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    --landing-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
