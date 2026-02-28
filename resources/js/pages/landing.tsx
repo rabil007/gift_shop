@@ -23,17 +23,6 @@ const deliveryOptions = [
     { label: 'Midnight Delivery', sub: 'Late night', icon: Sparkles },
 ];
 
-const occasions = [
-    { title: 'Birthday', href: '#categories', image: '/images/landing/cakes.png' },
-    { title: 'Anniversary', href: '#categories', image: '/images/landing/flowers.png' },
-    { title: 'New Born', href: '#categories', image: '/images/landing/flowers.png' },
-    { title: 'Get Well Soon', href: '#categories', image: '/images/landing/plants.png' },
-    { title: 'Congratulations', href: '#categories', image: '/images/landing/personalized.png' },
-    { title: 'Love & Romance', href: '#categories', image: '/images/landing/flowers.png' },
-    { title: 'Sorry', href: '#categories', image: '/images/landing/flowers.png' },
-    { title: 'Thank You', href: '#categories', image: '/images/landing/cakes.png' },
-];
-
 const featuredItems = [
     { title: 'Blush Rose Bouquet', price: '299', image: '/images/landing/flowers.png' },
     { title: 'Chocolate Dream Cake', price: '249', image: '/images/landing/cakes.png' },
@@ -139,6 +128,36 @@ const testimonials = [
     },
 ];
 
+const bannerAds = [
+    {
+        id: 'main',
+        title: 'This Ramadan,',
+        subtitle: 'Celebrate togetherness with thoughtful gifts',
+        tagline: 'Share the blessings',
+        image: '/images/landing/hero.png',
+        href: '#categories',
+        cta: 'Order Now',
+        size: 'large',
+    },
+    {
+        id: 'wishes',
+        title: 'Gifts That Speak Louder Than Wishes',
+        image: '/images/landing/cakes.png',
+        href: '#categories',
+        cta: 'Order Now',
+        size: 'small',
+    },
+    {
+        id: 'personalised',
+        title: 'Personalised Gift Sets for all occasions',
+        tagline: "Gift Shop's Special Curation",
+        image: '/images/landing/personalized.png',
+        href: '#categories',
+        cta: 'Order Now',
+        size: 'small',
+    },
+];
+
 const stats = [
     { value: '50k+', label: 'Gifts delivered' },
     { value: '4.9', label: 'Customer rating' },
@@ -189,19 +208,6 @@ export default function Landing() {
                 <div className="absolute right-0 top-1/4 h-96 w-96 rounded-full bg-amber-200/20 blur-3xl" />
                 <div className="absolute bottom-0 left-1/4 h-80 w-80 rounded-full bg-rose-200/20 blur-3xl" />
 
-                <div className="relative border-b border-neutral-200/60 bg-white/70 backdrop-blur-xl">
-                    <div className="mx-auto flex h-10 max-w-6xl items-center justify-center gap-2 px-4 text-sm text-neutral-700">
-                        <Sparkles className="h-4 w-4 text-amber-500" />
-                        <span>Free same-day delivery on orders over 150 AED</span>
-                        <Link
-                            href="#categories"
-                            className="font-medium text-rose-600 underline-offset-2 hover:text-rose-700 hover:underline"
-                        >
-                            Shop now
-                        </Link>
-                    </div>
-                </div>
-
                 <header className="relative z-50 border-b border-neutral-200/50 bg-white/80 backdrop-blur-xl">
                         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 py-4 md:h-20">
                         <Link
@@ -250,75 +256,81 @@ export default function Landing() {
                     </div>
                 </header>
 
-                <section className="relative px-4 pb-20 pt-12 md:pb-32 md:pt-20 lg:pt-24">
-                    <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-2 lg:gap-20 lg:items-center">
-                        <div className="space-y-8">
-                            <div className="inline-flex items-center gap-2 rounded-full border border-rose-200/80 bg-white/80 px-4 py-1.5 text-sm font-medium text-rose-700 shadow-sm">
-                                <span className="relative flex h-2 w-2">
-                                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-rose-400 opacity-75" />
-                                    <span className="relative inline-flex h-2 w-2 rounded-full bg-rose-500" />
-                                </span>
-                                Same-day delivery across the UAE
-                            </div>
-                            <h1 className="text-4xl font-bold leading-[1.1] tracking-tight text-neutral-900 md:text-5xl lg:text-6xl xl:text-7xl">
-                                Send joy with{' '}
-                                <span className="bg-linear-to-r from-rose-500 via-pink-500 to-amber-400 bg-clip-text text-transparent">
-                                    every gift
-                                </span>
-                            </h1>
-                            <p className="max-w-lg text-lg leading-relaxed text-neutral-600">
-                                Flowers, cakes, plants, and personalized surprises. Handpicked and delivered the same day so your gesture arrives exactly when it matters.
-                            </p>
-                            <div className="flex flex-wrap gap-4">
-                                <Link href="/register" prefetch>
-                                    <Button
-                                        size="lg"
-                                        className="group rounded-full bg-neutral-900 px-8 text-base font-medium text-white shadow-xl shadow-neutral-900/25 transition hover:bg-neutral-800 hover:shadow-neutral-900/30"
+                <section className="relative px-4 py-8 md:py-10">
+                    <div className="mx-auto max-w-6xl overflow-hidden rounded-3xl bg-neutral-100/80 shadow-inner ring-1 ring-neutral-200/50">
+                        <div className="grid grid-cols-1 gap-px bg-neutral-200/50 md:grid-cols-2">
+                            {bannerAds
+                                .filter((b) => b.size === 'large')
+                                .map((banner) => (
+                                    <a
+                                        key={banner.id}
+                                        href={banner.href}
+                                        className="group relative flex min-h-[320px] overflow-hidden bg-white md:min-h-[420px]"
                                     >
-                                        Start shopping
-                                        <ArrowRight className="ml-2 h-4 w-4 transition group-hover:translate-x-0.5" />
-                                    </Button>
-                                </Link>
-                                <a href="#categories">
-                                    <Button
-                                        size="lg"
-                                        variant="outline"
-                                        className="rounded-full border-2 border-neutral-400 bg-neutral-100 px-8 text-base font-medium text-neutral-900 shadow-sm hover:bg-neutral-200 hover:border-neutral-500"
-                                    >
-                                        Browse categories
-                                    </Button>
-                                </a>
-                            </div>
-                            <div className="flex flex-wrap gap-8 pt-4">
-                                {stats.map((stat, i) => (
-                                    <div key={i}>
-                                        <p className="text-2xl font-bold text-neutral-900 md:text-3xl">{stat.value}</p>
-                                        <p className="text-sm font-medium text-neutral-500">{stat.label}</p>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                        <div className="relative flex justify-center lg:justify-end">
-                            <div className="relative">
-                                <div className="absolute -inset-4 rounded-4xl bg-linear-to-br from-rose-200/40 to-amber-200/40 blur-2xl" />
-                                <div className="relative overflow-hidden rounded-3xl shadow-2xl ring-1 ring-neutral-200/60">
-                                    <img
-                                        src="/images/landing/hero.png"
-                                        alt="Gift selection"
-                                        className="h-full w-full max-w-md object-cover object-center"
-                                    />
-                                    <div className="absolute bottom-4 left-4 right-4 rounded-2xl border border-white/40 bg-white/90 p-4 shadow-lg backdrop-blur-md">
-                                        <div className="flex items-center gap-3">
-                                            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-rose-100">
-                                                <Truck className="h-5 w-5 text-rose-600" />
-                                            </div>
+                                        <div className="absolute inset-0 z-10 flex flex-col justify-between p-6 md:w-3/5 md:p-10">
+                                            {banner.tagline && (
+                                                <p className="text-xs font-medium uppercase tracking-widest text-rose-600">
+                                                    {banner.tagline}
+                                                </p>
+                                            )}
                                             <div>
-                                                <p className="font-semibold text-neutral-900">Same-day delivery</p>
-                                                <p className="text-sm text-neutral-600">Order by 2 PM, delivered today</p>
+                                                <h2 className="mt-2 text-2xl font-bold leading-tight text-neutral-900 md:text-4xl">
+                                                    {banner.title}
+                                                </h2>
+                                                {banner.subtitle && (
+                                                    <p className="mt-2 text-neutral-600 md:text-lg">{banner.subtitle}</p>
+                                                )}
                                             </div>
+                                            <span className="mt-6 inline-flex w-fit rounded-full bg-neutral-900 px-5 py-2.5 text-sm font-medium text-white transition group-hover:bg-neutral-800">
+                                                {banner.cta}
+                                            </span>
                                         </div>
-                                    </div>
-                                </div>
+                                        {banner.image && (
+                                            <div className="absolute inset-0 md:left-auto md:right-0 md:w-2/5">
+                                                <img
+                                                    src={banner.image}
+                                                    alt=""
+                                                    className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                                                />
+                                                <div className="absolute inset-0 bg-linear-to-r from-white via-white/80 to-transparent md:from-transparent md:via-transparent" />
+                                            </div>
+                                        )}
+                                    </a>
+                                ))}
+                            <div className="grid grid-rows-2 gap-px bg-neutral-200/50">
+                                {bannerAds
+                                    .filter((b) => b.size === 'small')
+                                    .map((banner) => (
+                                        <a
+                                            key={banner.id}
+                                            href={banner.href}
+                                            className="group relative flex min-h-[200px] overflow-hidden bg-white md:min-h-[210px]"
+                                        >
+                                            <div className="absolute inset-0 z-10 flex flex-col justify-between p-5 md:w-3/5 md:p-6">
+                                                {banner.tagline && (
+                                                    <p className="text-[10px] font-medium uppercase tracking-widest text-rose-600">
+                                                        {banner.tagline}
+                                                    </p>
+                                                )}
+                                                <h3 className="mt-0.5 text-base font-bold leading-tight text-neutral-900 md:text-lg">
+                                                    {banner.title}
+                                                </h3>
+                                                <span className="mt-3 inline-flex w-fit rounded-full bg-neutral-900 px-4 py-2 text-xs font-medium text-white transition group-hover:bg-neutral-800">
+                                                    {banner.cta}
+                                                </span>
+                                            </div>
+                                            {banner.image && (
+                                                <div className="absolute inset-0 md:left-auto md:right-0 md:w-2/5">
+                                                    <img
+                                                        src={banner.image}
+                                                        alt=""
+                                                        className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                                                    />
+                                                    <div className="absolute inset-0 bg-linear-to-r from-white via-white/90 to-transparent md:from-transparent md:via-transparent" />
+                                                </div>
+                                            )}
+                                        </a>
+                                    ))}
                             </div>
                         </div>
                     </div>
@@ -340,28 +352,6 @@ export default function Landing() {
                     </div>
                 </section>
             </div>
-
-            <section className="border-y border-neutral-200/80 bg-white px-4 py-12 md:py-16">
-                <div className="mx-auto max-w-6xl">
-                    <h2 className="text-center text-xl font-bold text-neutral-900 md:text-2xl">Shop by occasion</h2>
-                    <p className="mt-2 text-center text-neutral-600">Find the perfect gift for every moment</p>
-                    <div className="mt-8 flex gap-4 overflow-x-auto pb-4 scroll-smooth md:gap-6 [scrollbar-width:thin]" style={{ scrollSnapType: 'x mandatory' }}>
-                        {occasions.map((occ) => (
-                            <a
-                                key={occ.title}
-                                href={occ.href}
-                                className="group flex min-w-[140px] shrink-0 flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white transition hover:border-rose-200 hover:shadow-lg md:min-w-[160px]"
-                                style={{ scrollSnapAlign: 'start' }}
-                            >
-                                <div className="aspect-square overflow-hidden bg-neutral-100">
-                                    <img src={occ.image} alt={occ.title} className="h-full w-full object-cover transition group-hover:scale-105" />
-                                </div>
-                                <p className="p-3 text-center text-sm font-semibold text-neutral-900">{occ.title}</p>
-                            </a>
-                        ))}
-                    </div>
-                </div>
-            </section>
 
             <section id="categories" className="px-4 py-20 md:py-28">
                 <div className="mx-auto max-w-6xl">
