@@ -46,7 +46,7 @@ export default function Landing() {
                 </Link>
             </header>
 
-            <main className="relative z-10 pt-8 sm:pt-12 md:pt-24 pb-24 sm:pb-32">
+            <main className="relative z-10 pt-4 sm:pt-12 md:pt-24 pb-24 sm:pb-32">
                 <HeroSection />
                 <CollectionsSection />
                 <FeaturedSection />
