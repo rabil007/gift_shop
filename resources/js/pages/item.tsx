@@ -57,32 +57,30 @@ export default function ItemDetail() {
                     Back to Collection
                 </Link>
 
-                <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-start">
-                    {/* Image Gallery */}
-                    <div className="w-full lg:w-1/2 flex flex-col gap-4 sm:gap-6 animate-in slide-in-from-left-8 fade-in duration-1000">
-                        <div className="relative aspect-square sm:aspect-[4/5] lg:aspect-square w-full rounded-3xl overflow-hidden bg-neutral-100 shadow-[0_8px_40px_rgb(0,0,0,0.06)] border border-white">
-                            <div className="absolute top-4 left-4 z-10 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full text-[10px] font-bold tracking-widest uppercase text-neutral-800 shadow-sm border border-black/5 flex items-center gap-1.5">
+                <div className="flex flex-col md:flex-row gap-8 lg:gap-12 items-start">
+                    <div className="w-full md:w-[min(100%,320px)] md:flex-shrink-0 flex flex-col gap-3 sm:gap-4">
+                        <div className="relative aspect-[4/5] w-full max-h-[48vh] sm:max-h-[420px] md:max-h-[360px] rounded-2xl overflow-hidden bg-neutral-100 shadow-[0_8px_40px_rgb(0,0,0,0.06)] border border-white">
+                            <div className="absolute top-3 left-3 z-10 bg-white/90 backdrop-blur-md px-2.5 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase text-neutral-800 shadow-sm border border-black/5 flex items-center gap-1.5">
                                 <Star className="h-3 w-3 fill-[var(--landing-accent)] text-[var(--landing-accent)]" />
                                 Bestseller
                             </div>
-                            <img src={mainImage} className="w-full h-full object-cover mix-blend-multiply transition-opacity duration-500" alt="Product View" />
+                            <img src={mainImage} className="w-full h-full object-contain transition-opacity duration-500" alt="Product View" />
                         </div>
-                        <div className="flex gap-4 sm:gap-6 overflow-x-auto pb-4 sm:pb-0 scrollbar-none snap-x snap-mandatory">
+                        <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-none snap-x snap-mandatory">
                             {images.map((img, i) => (
                                 <button 
                                     key={i} 
                                     onClick={() => setMainImage(img)}
-                                    className={`relative h-20 w-20 sm:h-28 sm:w-28 shrink-0 rounded-2xl overflow-hidden shadow-sm transition-all border-2 snap-center touch-target active:scale-95 ${mainImage === img ? 'border-[var(--landing-accent)] ring-4 ring-[var(--landing-accent)]/20 shadow-md' : 'border-white hover:border-neutral-200 opacity-70 hover:opacity-100'}`}
+                                    className={`relative h-16 w-16 sm:h-20 sm:w-20 shrink-0 rounded-xl overflow-hidden shadow-sm transition-all border-2 snap-center touch-target active:scale-95 ${mainImage === img ? 'border-[var(--landing-accent)] ring-2 ring-[var(--landing-accent)]/20 shadow-md' : 'border-white hover:border-neutral-200 opacity-70 hover:opacity-100'}`}
                                 >
-                                    <img src={img} className="w-full h-full object-cover mix-blend-multiply bg-neutral-100" alt={`Thumbnail ${i+1}`} />
+                                    <img src={img} className="w-full h-full object-cover bg-neutral-100" alt={`Thumbnail ${i+1}`} />
                                 </button>
                             ))}
                         </div>
                     </div>
 
-                    {/* Product Info */}
-                    <div className="w-full lg:w-1/2 flex flex-col animate-in slide-in-from-right-8 fade-in duration-1000 delay-150 sticky top-24">
-                        <div className="flex items-center justify-between mb-4">
+                    <div className="w-full md:flex-1 min-w-0 flex flex-col sticky top-24">
+                        <div className="flex items-center justify-between mb-3">
                             <span className="text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase text-[var(--landing-accent)]">
                                 Curated Hampers
                             </span>
@@ -96,22 +94,22 @@ export default function ItemDetail() {
                             </div>
                         </div>
 
-                        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif text-neutral-900 font-bold tracking-tight leading-[1.1] mb-4 sm:mb-6">
+                        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-neutral-900 font-bold tracking-tight leading-[1.15] mb-3 sm:mb-4">
                             The Royal Collection
                         </h1>
                         
-                        <div className="flex items-end gap-4 mb-6 sm:mb-8">
-                            <p className="text-2xl sm:text-3xl font-bold text-neutral-900">AED 850.00</p>
-                            <p className="text-sm text-neutral-500 font-medium pb-1.5 uppercase tracking-wider">Taxes included</p>
+                        <div className="flex items-end gap-4 mb-4 sm:mb-6">
+                            <p className="text-xl sm:text-2xl font-bold text-neutral-900">AED 850.00</p>
+                            <p className="text-xs sm:text-sm text-neutral-500 font-medium pb-1 uppercase tracking-wider">Taxes included</p>
                         </div>
 
-                        <div className="h-px w-full bg-black/5 mb-6 sm:mb-8" />
+                        <div className="h-px w-full bg-black/5 mb-4 sm:mb-6" />
 
-                        <p className="text-base sm:text-lg text-neutral-600 leading-relaxed mb-8 sm:mb-10">
+                        <p className="text-sm sm:text-base text-neutral-600 leading-relaxed mb-6 sm:mb-8">
                             An exquisite curation of our finest offerings, designed to make an unforgettable impression. The Royal Collection features artisan-crafted treats, premium dates, and elegant floral accents presented in a bespoke velvet-lined chest.
                         </p>
 
-                        <div className="flex flex-col sm:flex-row gap-4 mb-10 sm:mb-12">
+                        <div className="flex flex-col sm:flex-row gap-4 mb-8 sm:mb-10">
                             <div className="flex items-center justify-between rounded-xl sm:rounded-2xl border border-white bg-white/70 backdrop-blur-xl shadow-[0_4px_20px_rgb(0,0,0,0.03)] p-2">
                                 <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="h-12 w-12 flex items-center justify-center text-neutral-500 hover:text-neutral-900 bg-black/5 hover:bg-black/10 rounded-lg sm:rounded-xl transition-colors active:scale-95 font-bold touch-target">
                                     -
@@ -142,8 +140,8 @@ export default function ItemDetail() {
                             </button>
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div className="flex items-start gap-3 p-4 rounded-xl bg-white/60 backdrop-blur-xl border border-white shadow-sm">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                            <div className="flex items-start gap-3 p-3 sm:p-4 rounded-xl bg-white/60 backdrop-blur-xl border border-white shadow-sm">
                                 <div className="h-10 w-10 shrink-0 bg-slate-50 border border-slate-100 rounded-full flex items-center justify-center">
                                     <Truck className="h-4 w-4 text-[var(--landing-accent)]" />
                                 </div>
@@ -152,7 +150,7 @@ export default function ItemDetail() {
                                     <p className="text-xs text-neutral-500 mt-0.5 leading-relaxed">Available in Abu Dhabi & Dubai for orders before 4 PM.</p>
                                 </div>
                             </div>
-                            <div className="flex items-start gap-3 p-4 rounded-xl bg-white/60 backdrop-blur-xl border border-white shadow-sm">
+                            <div className="flex items-start gap-3 p-3 sm:p-4 rounded-xl bg-white/60 backdrop-blur-xl border border-white shadow-sm">
                                 <div className="h-10 w-10 shrink-0 bg-slate-50 border border-slate-100 rounded-full flex items-center justify-center">
                                     <ShieldCheck className="h-4 w-4 text-[var(--landing-accent)]" />
                                 </div>
