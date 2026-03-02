@@ -86,9 +86,6 @@ export default function ItemDetail() {
                             </span>
                             <div className="flex gap-2">
                                 <button className="h-10 w-10 sm:h-12 sm:w-12 rounded-full border border-black/5 bg-white/60 backdrop-blur-md shadow-sm flex items-center justify-center text-neutral-600 hover:text-[var(--landing-accent)] hover:bg-white transition-all active:scale-95 touch-target">
-                                    <Heart className="h-4 w-4 sm:h-5 sm:w-5" />
-                                </button>
-                                <button className="h-10 w-10 sm:h-12 sm:w-12 rounded-full border border-black/5 bg-white/60 backdrop-blur-md shadow-sm flex items-center justify-center text-neutral-600 hover:text-[var(--landing-accent)] hover:bg-white transition-all active:scale-95 touch-target">
                                     <Share2 className="h-4 w-4 sm:h-5 sm:w-5" />
                                 </button>
                             </div>

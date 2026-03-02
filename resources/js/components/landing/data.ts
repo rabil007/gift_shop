@@ -7,12 +7,12 @@ export const heroImages = [
 ];
 
 export const featuredItems = [
-    { title: 'The Royal Orchids', price: 'AED 399', image: '/images/landing/flowers.png', Tag: 'Bestseller' as const },
-    { title: 'Signature Saffron Cake', price: 'AED 299', image: '/images/landing/cakes.png', Tag: 'New' as const },
-    { title: 'Desert Rose Arrangement', price: 'AED 189', image: '/images/landing/plants.png' },
-    { title: 'Luxury Date Collection', price: 'AED 449', image: '/images/landing/personalized.png', Tag: 'Limited' as const },
-    { title: 'Oud & Amber Gift Set', price: 'AED 249', image: '/images/landing/personalized.png' },
-    { title: 'Vanilla Bean Blanc', price: 'AED 229', image: '/images/landing/cakes.png' },
+    { id: 1, title: 'The Royal Orchids', price: 'AED 399', image: '/images/landing/flowers.png', Tag: 'Bestseller' as const },
+    { id: 2, title: 'Signature Saffron Cake', price: 'AED 299', image: '/images/landing/cakes.png', Tag: 'New' as const },
+    { id: 3, title: 'Desert Rose Arrangement', price: 'AED 189', image: '/images/landing/plants.png' },
+    { id: 4, title: 'Luxury Date Collection', price: 'AED 449', image: '/images/landing/personalized.png', Tag: 'Limited' as const },
+    { id: 5, title: 'Oud & Amber Gift Set', price: 'AED 249', image: '/images/landing/personalized.png' },
+    { id: 6, title: 'Vanilla Bean Blanc', price: 'AED 229', image: '/images/landing/cakes.png' },
 ];
 
 export const testimonials = [
