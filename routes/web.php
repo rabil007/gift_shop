@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
 Route::get('/', fn () => Inertia::render('landing'))->name('home');
+Route::get('/shop', fn () => Inertia::render('shop'))->name('shop');
 Route::get('/cart', fn () => Inertia::render('cart'))->name('cart');
 Route::get('/item/{id}', fn () => Inertia::render('item'))->name('item.show');
 

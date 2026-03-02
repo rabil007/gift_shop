@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from '@inertiajs/react';
 import { Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { heroImages } from './data';
@@ -55,9 +56,9 @@ export function HeroSection() {
                         Curated collections honoring the spirit of generosity. From exquisite floral arrangements to gourmet masterpieces, delivered across the Emirates with flawless precision.
                     </p>
                     <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4 sm:gap-6 animate-in slide-in-from-bottom-6 fade-in duration-1000 delay-300">
-                        <Button className="bg-[var(--landing-accent)] hover:bg-[var(--landing-accent-hover)] text-white rounded-none px-6 sm:px-8 h-12 sm:h-14 text-xs font-bold tracking-widest uppercase transition-all touch-target min-h-[48px] active:scale-[0.98]">
+                        <Link href="/shop" className="inline-flex items-center justify-center bg-[var(--landing-accent)] hover:bg-[var(--landing-accent-hover)] text-white rounded-none px-6 sm:px-8 h-12 sm:h-14 text-xs font-bold tracking-widest uppercase transition-all touch-target min-h-[48px] active:scale-[0.98]">
                             Explore Collections
-                        </Button>
+                        </Link>
                         <Button variant="ghost" className="rounded-none px-6 sm:px-8 h-12 sm:h-14 text-xs font-bold tracking-widest uppercase text-neutral-900 hover:bg-neutral-100 transition-all touch-target min-h-[48px] active:scale-[0.98]">
                             View Lookbook
                         </Button>

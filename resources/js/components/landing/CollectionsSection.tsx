@@ -3,10 +3,10 @@ import { ChevronRight } from 'lucide-react';
 import { Link } from '@inertiajs/react';
 
 const categories = [
-    { title: 'Hamper', description: 'Curated gift hampers', icon: Gift, href: '#' },
-    { title: 'Bouquet', description: 'Fresh floral arrangements', icon: Heart, href: '#' },
-    { title: 'Photo Gift', description: 'Personalized photo gifts', icon: Image, href: '#' },
-    { title: 'Cake', description: 'Premium cakes & patisserie', icon: Cake, href: '#' },
+    { title: 'Hamper', description: 'Curated gift hampers', icon: Gift, href: '/shop' },
+    { title: 'Bouquet', description: 'Fresh floral arrangements', icon: Heart, href: '/shop' },
+    { title: 'Photo Gift', description: 'Personalized photo gifts', icon: Image, href: '/shop' },
+    { title: 'Cake', description: 'Premium cakes & patisserie', icon: Cake, href: '/shop' },
 ];
 
 export function CollectionsSection() {

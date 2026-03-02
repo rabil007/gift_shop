@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Link } from '@inertiajs/react';
 import { Gift, ShoppingCart, ArrowLeft, Heart, Share2, Star, Truck, ShieldCheck, Check } from 'lucide-react';
+import { Carousel } from '@/components/landing/Carousel';
+import { featuredItems } from '@/components/landing/data';
 
 export default function ItemDetail() {
     const [mainImage, setMainImage] = useState("https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=1200&auto=format&fit=crop");
@@ -159,6 +161,41 @@ export default function ItemDetail() {
                         </div>
 
                     </div>
+                </div>
+
+                <div className="mt-16 sm:mt-24">
+                    <div className="flex items-end justify-between mb-6 px-2 sm:px-4">
+                        <div>
+                            <h2 className="text-2xl sm:text-3xl font-serif font-bold text-neutral-900">You May Also Like</h2>
+                            <p className="mt-1 sm:mt-2 text-sm text-neutral-500 font-medium">More exquisite selections from our Curated Hampers.</p>
+                        </div>
+                    </div>
+                    <Carousel>
+                        {featuredItems.filter(item => item.id !== 1).slice(0, 4).map((item, idx) => (
+                            <div key={idx} data-carousel-item className="group relative w-[240px] sm:w-[260px] md:w-[280px] shrink-0 [scroll-snap-align:start]">
+                                <Link href={`/item/${item.id}`} className="block">
+                                    <div className="relative aspect-[4/5] rounded-2xl overflow-hidden bg-white/50 backdrop-blur-md border border-white shadow-sm m-2 mb-4 p-2">
+                                        <div className="absolute inset-2 rounded-xl overflow-hidden bg-neutral-100">
+                                            {'Tag' in item && item.Tag && (
+                                                <div className="absolute top-2 left-2 z-10 bg-white/90 backdrop-blur-md px-2 py-0.5 rounded-full text-[9px] font-bold tracking-widest uppercase text-neutral-800 shadow-sm border border-black/5">
+                                                    {item.Tag}
+                                                </div>
+                                            )}
+                                            <img
+                                                src={item.image}
+                                                alt={item.title}
+                                                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105 mix-blend-multiply"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="px-3">
+                                        <h4 className="text-base font-bold text-neutral-900 line-clamp-1">{item.title}</h4>
+                                        <p className="text-sm text-[var(--landing-accent)] font-semibold mt-0.5">{item.price}</p>
+                                    </div>
+                                </Link>
+                            </div>
+                        ))}
+                    </Carousel>
                 </div>
             </main>
 
