@@ -62,15 +62,15 @@ export default function Shop() {
                     </p>
                 </div>
 
-                <div className="flex flex-col md:flex-row gap-6 items-center justify-between mb-10 sticky top-14 sm:top-20 z-40 bg-[var(--landing-bg)]/80 backdrop-blur-xl py-4 -mx-4 sm:mx-0">
-                    <div className="flex gap-2 w-full md:w-auto overflow-x-auto px-4 sm:px-0 pb-2 md:pb-0 scrollbar-none">
+                <div className="flex flex-col lg:flex-row gap-6 items-start lg:items-center justify-between mb-10 sticky top-14 sm:top-20 z-40 bg-[var(--landing-bg)]/80 backdrop-blur-xl py-4 sm:py-6 -mx-4 sm:mx-0">
+                    <div className="flex gap-2 w-full flex-1 min-w-0 overflow-x-auto px-4 sm:px-0 pb-4 pt-2 -mt-2 scrollbar-none">
                         {categories.map(category => (
                             <button
                                 key={category}
                                 onClick={() => setActiveCategory(category)}
                                 className={`shrink-0 px-5 py-2.5 rounded-full text-xs font-bold tracking-widest uppercase transition-all whitespace-nowrap active:scale-95 touch-target ${
                                     activeCategory === category 
-                                    ? 'bg-[var(--landing-accent)] text-white shadow-md' 
+                                    ? 'bg-[var(--landing-accent)] text-white shadow-md border border-transparent' 
                                     : 'bg-white/60 text-neutral-600 hover:bg-white hover:text-[var(--landing-accent)] shadow-sm border border-white'
                                 }`}
                             >
@@ -81,7 +81,7 @@ export default function Shop() {
                         <div className="w-1 shrink-0 sm:hidden"></div>
                     </div>
 
-                    <div className="relative w-full md:w-80 shrink-0 px-4 sm:px-0">
+                    <div className="relative w-full lg:w-80 shrink-0 px-4 sm:px-0">
                         <div className="absolute inset-y-0 left-8 sm:left-4 flex items-center pointer-events-none">
                             <Search className="h-4 w-4 text-neutral-400" />
                         </div>
