@@ -19,7 +19,7 @@ export function WhyUsSection() {
                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-neutral-900">Why Choose Us</h2>
                 <p className="mt-2 text-sm text-neutral-500 font-medium max-w-xl">We redefine the art of gifting through seamless service and unwavering quality.</p>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                 {whyUs.map((item) => {
                     const Icon = item.icon;
                     return (

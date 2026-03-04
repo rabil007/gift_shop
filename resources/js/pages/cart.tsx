@@ -46,14 +46,14 @@ export default function Cart() {
                     </div>
                 </div>
                 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-                    <div className="lg:col-span-8 flex flex-col gap-4 sm:gap-6">
+                <div className="flex flex-col lg:grid lg:grid-cols-12 gap-8 lg:gap-12 items-start mt-8">
+                    <div className="w-full lg:col-span-8 flex flex-col gap-4 sm:gap-6">
                         {/* Cart Item 1 */}
-                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 p-4 sm:p-6 rounded-2xl sm:rounded-[2rem] bg-white/70 backdrop-blur-xl border border-white shadow-[0_8px_40px_rgb(0,0,0,0.04)] relative hover:shadow-[0_12px_50px_rgb(0,0,0,0.06)] transition-shadow">
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 p-4 sm:p-6 rounded-2xl sm:rounded-[2rem] bg-white/70 backdrop-blur-xl border border-white shadow-[0_8px_40px_rgb(0,0,0,0.04)] relative transition-shadow">
                             <div className="h-24 w-24 sm:h-32 sm:w-32 shrink-0 bg-neutral-100 rounded-xl overflow-hidden shadow-inner border border-black/5">
                                 <img src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=600&auto=format&fit=crop" alt="The Royal Collection" className="h-full w-full object-cover mix-blend-multiply" />
                             </div>
-                            <div className="flex-1 min-w-0">
+                            <div className="flex-1 min-w-0 w-full">
                                 <h3 className="text-xl font-bold text-neutral-900 truncate">The Royal Collection</h3>
                                 <p className="text-sm font-medium text-neutral-500 mt-1">AED 850.00</p>
                                 <div className="flex flex-wrap items-center gap-4 sm:gap-6 mt-4 sm:mt-6">
@@ -62,21 +62,21 @@ export default function Cart() {
                                         <span className="text-sm font-bold text-neutral-900 px-2 min-w-[2rem] text-center">1</span>
                                         <button className="px-3 py-1.5 text-neutral-500 hover:text-neutral-900 font-bold active:scale-95 touch-target min-w-[32px]">+</button>
                                     </div>
-                                    <button className="flex items-center gap-1.5 text-xs font-bold text-neutral-400 hover:text-red-500 uppercase tracking-widest transition-colors active:scale-95 p-2 touch-target">
+                                    <button className="flex items-center gap-1.5 text-xs font-bold text-neutral-400 hover:text-red-500 uppercase tracking-widest transition-colors active:scale-95 p-2 touch-target ml-auto sm:ml-0">
                                         <Trash2 className="h-4 w-4" />
-                                        Remove
+                                        <span className="sr-only sm:not-sr-only">Remove</span>
                                     </button>
                                 </div>
                             </div>
-                            <div className="hidden sm:block text-xl font-bold text-neutral-900 self-start sm:self-center">AED 850.00</div>
+                            <div className="hidden sm:block text-xl font-bold text-neutral-900 self-start sm:self-center shrink-0">AED 850.00</div>
                         </div>
 
                         {/* Cart Item 2 */}
-                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 p-4 sm:p-6 rounded-2xl sm:rounded-[2rem] bg-white/70 backdrop-blur-xl border border-white shadow-[0_8px_40px_rgb(0,0,0,0.04)] relative hover:shadow-[0_12px_50px_rgb(0,0,0,0.06)] transition-shadow">
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 p-4 sm:p-6 rounded-2xl sm:rounded-[2rem] bg-white/70 backdrop-blur-xl border border-white shadow-[0_8px_40px_rgb(0,0,0,0.04)] relative transition-shadow">
                             <div className="h-24 w-24 sm:h-32 sm:w-32 shrink-0 bg-neutral-100 rounded-xl overflow-hidden shadow-inner border border-black/5">
                                 <img src="https://images.unsplash.com/photo-1558350315-8aa00e8e4590?q=80&w=600&auto=format&fit=crop" alt="Signature Saffron Cake" className="h-full w-full object-cover mix-blend-multiply" />
                             </div>
-                            <div className="flex-1 min-w-0">
+                            <div className="flex-1 min-w-0 w-full">
                                 <h3 className="text-xl font-bold text-neutral-900 truncate">Signature Saffron Cake</h3>
                                 <p className="text-sm font-medium text-neutral-500 mt-1">AED 240.00</p>
                                 <div className="flex flex-wrap items-center gap-4 sm:gap-6 mt-4 sm:mt-6">
@@ -85,18 +85,18 @@ export default function Cart() {
                                         <span className="text-sm font-bold text-neutral-900 px-2 min-w-[2rem] text-center">1</span>
                                         <button className="px-3 py-1.5 text-neutral-500 hover:text-neutral-900 font-bold active:scale-95 touch-target min-w-[32px]">+</button>
                                     </div>
-                                    <button className="flex items-center gap-1.5 text-xs font-bold text-neutral-400 hover:text-red-500 uppercase tracking-widest transition-colors active:scale-95 p-2 touch-target">
+                                    <button className="flex items-center gap-1.5 text-xs font-bold text-neutral-400 hover:text-red-500 uppercase tracking-widest transition-colors active:scale-95 p-2 touch-target ml-auto sm:ml-0">
                                         <Trash2 className="h-4 w-4" />
-                                        Remove
+                                        <span className="sr-only sm:not-sr-only">Remove</span>
                                     </button>
                                 </div>
                             </div>
-                            <div className="hidden sm:block text-xl font-bold text-neutral-900 self-start sm:self-center">AED 240.00</div>
+                            <div className="hidden sm:block text-xl font-bold text-neutral-900 self-start sm:self-center shrink-0">AED 240.00</div>
                         </div>
                     </div>
 
                     {/* Order Summary */}
-                    <div className="lg:col-span-4 sticky top-24">
+                    <div className="w-full lg:col-span-4 sticky lg:top-24 mt-8 lg:mt-0">
                         <div className="rounded-2xl sm:rounded-[2.5rem] bg-white/70 backdrop-blur-3xl border border-white shadow-[0_8px_40px_rgb(0,0,0,0.04)] p-6 sm:p-8 relative overflow-hidden">
                             <div className="absolute -top-[50%] -left-[50%] w-[150%] h-[150%] bg-gradient-to-br from-white via-white/40 to-transparent -z-10 pointer-events-none transform -rotate-12" />
                             <h2 className="text-2xl font-serif font-bold text-neutral-900 mb-6">Order Summary</h2>

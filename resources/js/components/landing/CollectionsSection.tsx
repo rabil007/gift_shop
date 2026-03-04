@@ -16,7 +16,7 @@ export function CollectionsSection() {
                 <h2 className="text-xs font-bold tracking-[0.15em] text-neutral-500 uppercase">Our Collections</h2>
                 <span className="text-xs font-medium text-neutral-500">{categories.length} curations</span>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                 {categories.map((cat) => {
                     const Icon = cat.icon;
                     return (
