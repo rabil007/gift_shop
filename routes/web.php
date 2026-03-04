@@ -7,6 +7,7 @@ use Inertia\Inertia;
 Route::get('/', fn () => Inertia::render('landing'))->name('home');
 Route::get('/shop', fn () => Inertia::render('shop'))->name('shop');
 Route::get('/cart', fn () => Inertia::render('cart'))->name('cart');
+Route::get('/profile', fn () => Inertia::render('profile'))->name('profile');
 Route::get('/item/{id}', fn () => Inertia::render('item'))->name('item.show');
 
 Route::post('/enquiry', function () {

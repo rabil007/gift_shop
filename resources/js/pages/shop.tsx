@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { Link } from '@inertiajs/react';
-import { Gift, ShoppingCart, Search, ArrowRight } from 'lucide-react';
+import { Gift, ShoppingCart, Search, ArrowRight, User } from 'lucide-react';
 import { featuredItems } from '@/components/landing/data';
 
 const categories = ['All', 'Hampers', 'Flowers', 'Cakes', 'Personalized'];
@@ -44,6 +44,9 @@ export default function Shop() {
                 </Link>
                 <div className="flex items-center gap-4 sm:gap-6">
                     <Link href="/shop" className="text-sm font-bold text-neutral-900 hover:text-[var(--landing-accent)] transition-colors hidden sm:block">Shop</Link>
+                    <Link href="/profile" className="relative p-2 text-neutral-800 hover:text-[var(--landing-accent)] transition-colors active:scale-95 touch-target flex items-center justify-center bg-white shadow-sm rounded-full">
+                        <User className="h-5 w-5" />
+                    </Link>
                     <Link href="/cart" className="relative p-2 text-neutral-800 hover:text-[var(--landing-accent)] transition-colors active:scale-95 touch-target flex items-center justify-center bg-white shadow-sm rounded-full">
                         <ShoppingCart className="h-5 w-5" />
                         <span className="absolute top-0 right-0 h-4 w-4 bg-[var(--landing-accent)] text-white text-[10px] font-bold flex items-center justify-center rounded-full transform translate-x-1/4 -translate-y-1/4 shadow-sm border border-white">2</span>
