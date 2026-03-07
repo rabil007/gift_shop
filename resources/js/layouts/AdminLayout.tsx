@@ -1,5 +1,5 @@
 import { Link, usePage } from '@inertiajs/react';
-import { LayoutDashboard, Users, ShoppingBag, Settings, LogOut, FolderTree, Package, Star } from 'lucide-react';
+import { LayoutDashboard, Users, ShoppingBag, Settings, LogOut, FolderTree, Package, Star, Mail } from 'lucide-react';
 
 const navLinkClass = (active: boolean) =>
     `flex items-center gap-3 px-3 py-2 rounded-md font-medium transition-all group ${active ? 'bg-teal-500/10 text-teal-400' : 'text-slate-400 hover:text-slate-50 hover:bg-slate-800/50'}`;
@@ -57,6 +57,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                         <Link href="/admin/testimonials" className={navLinkClass(isActive('/admin/testimonials'))}>
                             <Star className="h-5 w-5 stroke-[1.5] group-hover:scale-110 transition-transform" />
                             Testimonials
+                        </Link>
+                        <Link href="/admin/enquiries" className={navLinkClass(isActive('/admin/enquiries'))}>
+                            <Mail className="h-5 w-5 stroke-[1.5] group-hover:scale-110 transition-transform" />
+                            Enquiries
                         </Link>
                     </nav>
 

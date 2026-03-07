@@ -26,18 +26,7 @@ Route::get('/item/{id}', [HomeController::class, 'item'])->name('item.show');
 Route::get('/login', fn () => Inertia::render('auth/login'))->name('login');
 Route::get('/register', fn () => Inertia::render('auth/register'))->name('register');
 
-Route::post('/enquiry', function () {
-    $v = Validator::make(request()->all(), [
-        'name' => ['required', 'string', 'max:255'],
-        'email' => ['required', 'email'],
-        'subject' => ['required', 'string', 'max:255'],
-        'message' => ['required', 'string', 'max:5000'],
-    ]);
-    if ($v->fails()) {
-        return back()->withErrors($v)->withInput();
-    }
-    return back()->with('success', 'Thank you. We will get back to you soon.');
-})->name('enquiry.store');
+Route::post('/enquiry', [App\Http\Controllers\EnquiryController::class, 'store'])->name('enquiry.store');
 
 // Admin Routes
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
@@ -71,5 +60,12 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
         Route::get('/{testimonial}/edit', [App\Http\Controllers\TestimonialController::class, 'edit'])->name('edit');
         Route::put('/{testimonial}', [App\Http\Controllers\TestimonialController::class, 'update'])->name('update');
         Route::delete('/{testimonial}', [App\Http\Controllers\TestimonialController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::prefix('enquiries')->name('enquiries.')->group(function () {
+        Route::get('/', [App\Http\Controllers\Admin\EnquiryController::class, 'index'])->name('index');
+        Route::get('/{enquiry}', [App\Http\Controllers\Admin\EnquiryController::class, 'show'])->name('show');
+        Route::put('/{enquiry}/status', [App\Http\Controllers\Admin\EnquiryController::class, 'updateStatus'])->name('updateStatus');
+        Route::delete('/{enquiry}', [App\Http\Controllers\Admin\EnquiryController::class, 'destroy'])->name('destroy');
     });
 });
