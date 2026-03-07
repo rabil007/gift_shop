@@ -13,12 +13,13 @@ interface Item {
 }
 
 export default function Shop() {
-    const { auth, name, logo, categories, items = [] } = usePage().props as {
+    const { auth, name, logo, categories, items = [], cart_count = 0 } = usePage().props as unknown as {
         auth: { user: any | null };
         name: string;
         logo: string | null;
         categories: { id: number; name: string; slug: string }[];
         items: Item[];
+        cart_count?: number;
     };
     const [searchQuery, setSearchQuery] = useState('');
     const [activeCategory, setActiveCategory] = useState<string>('All');
@@ -75,7 +76,9 @@ export default function Shop() {
                     )}
                     <Link href="/cart" className="relative p-2 text-neutral-800 hover:text-[var(--landing-accent)] transition-colors active:scale-95 touch-target flex items-center justify-center bg-white shadow-sm rounded-full">
                         <ShoppingCart className="h-5 w-5" />
-                        <span className="absolute top-0 right-0 h-4 w-4 bg-[var(--landing-accent)] text-white text-[10px] font-bold flex items-center justify-center rounded-full transform translate-x-1/4 -translate-y-1/4 shadow-sm border border-white">2</span>
+                        {cart_count > 0 && (
+                            <span className="absolute top-0 right-0 h-4 w-4 bg-[var(--landing-accent)] text-white text-[10px] font-bold flex items-center justify-center rounded-full transform translate-x-1/4 -translate-y-1/4 shadow-sm border border-white">{cart_count}</span>
+                        )}
                     </Link>
                 </div>
             </header>

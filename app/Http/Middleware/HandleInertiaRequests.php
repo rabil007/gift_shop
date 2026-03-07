@@ -52,6 +52,7 @@ class HandleInertiaRequests extends Middleware
             'logo' => $logoUrl,
             'categories' => $categories,
             'quickLinks' => $quickLinks,
+            'cart_count' => $this->getCartCount(),
             'auth' => [
                 'user' => $request->user(),
             ],
@@ -60,6 +61,21 @@ class HandleInertiaRequests extends Middleware
                 'success' => $request->session()->get('success'),
             ],
         ];
+    }
+
+    private function getCartCount(): int
+    {
+        if (!\Illuminate\Support\Facades\Schema::hasTable('carts')) {
+            return 0;
+        }
+        
+        if (auth()->check()) {
+            $cart = \App\Models\Cart::where('user_id', auth()->id())->first();
+        } else {
+            $cart = \App\Models\Cart::where('session_id', session()->getId())->first();
+        }
+
+        return $cart ? $cart->items()->sum('quantity') : 0;
     }
 
     private static function sharedQuickLinks(): array

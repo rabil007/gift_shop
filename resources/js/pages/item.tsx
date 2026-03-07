@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, usePage } from '@inertiajs/react';
+import { Link, usePage, router } from '@inertiajs/react';
 import { ShoppingCart, ArrowLeft, Share2, Star, Truck, ShieldCheck, Check, User } from 'lucide-react';
 import { Logo } from '@/components/Logo';
 import { Carousel } from '@/components/landing/Carousel';
@@ -15,8 +15,8 @@ interface ItemData {
 }
 
 export default function ItemDetail() {
-    const props = usePage().props as { auth: { user: any | null }; name: string; logo: string | null; item?: ItemData; relatedItems?: ItemData[] };
-    const { auth, name, logo, item, relatedItems = [] } = props;
+    const props = usePage().props as unknown as { auth: { user: any | null }; name: string; logo: string | null; item?: ItemData; relatedItems?: ItemData[]; cart_count?: number; };
+    const { auth, name, logo, item, relatedItems = [], cart_count = 0 } = props;
     const [quantity, setQuantity] = useState(1);
     const [added, setAdded] = useState(false);
 
@@ -24,8 +24,17 @@ export default function ItemDetail() {
     const images = mainImage ? [mainImage] : [];
 
     const handleAddToCart = () => {
-        setAdded(true);
-        setTimeout(() => setAdded(false), 2000);
+        if (!item) return;
+        router.post('/cart/add', {
+            item_id: item.id,
+            quantity: quantity,
+        }, {
+            preserveScroll: true,
+            onSuccess: () => {
+                setAdded(true);
+                setTimeout(() => setAdded(false), 2000);
+            }
+        });
     };
 
     if (!item) return null;
@@ -71,7 +80,9 @@ export default function ItemDetail() {
                     )}
                     <Link href="/cart" className="relative p-2 text-neutral-800 hover:text-[var(--landing-accent)] transition-colors active:scale-95 touch-target flex items-center justify-center bg-white shadow-sm rounded-full">
                         <ShoppingCart className="h-5 w-5" />
-                        <span className="absolute top-0 right-0 h-4 w-4 bg-[var(--landing-accent)] text-white text-[10px] font-bold flex items-center justify-center rounded-full transform translate-x-1/4 -translate-y-1/4 shadow-sm border border-white">2</span>
+                        {cart_count > 0 && (
+                            <span className="absolute top-0 right-0 h-4 w-4 bg-[var(--landing-accent)] text-white text-[10px] font-bold flex items-center justify-center rounded-full transform translate-x-1/4 -translate-y-1/4 shadow-sm border border-white">{cart_count}</span>
+                        )}
                     </Link>
                 </div>
             </header>
@@ -149,6 +160,7 @@ export default function ItemDetail() {
                             
                             <button 
                                 onClick={handleAddToCart}
+                                disabled={added}
                                 className={`flex-1 h-16 min-h-[64px] rounded-xl sm:rounded-2xl text-xs sm:text-sm font-bold tracking-widest uppercase transition-all shadow-lg touch-target active:scale-[0.98] flex items-center justify-center gap-3 ${
                                     added ? 'bg-emerald-600 text-white shadow-emerald-500/25' : 'bg-[var(--landing-accent)] hover:bg-[var(--landing-accent-hover)] text-white shadow-[var(--landing-accent)]/20'
                                 }`}

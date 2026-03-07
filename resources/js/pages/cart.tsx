@@ -1,9 +1,21 @@
-import { Link, usePage } from '@inertiajs/react';
+import { Link, usePage, router } from '@inertiajs/react';
 import { ShoppingCart, ArrowLeft, Trash2, Lock, User } from 'lucide-react';
 import { Logo } from '@/components/Logo';
 
 export default function Cart() {
-    const { auth, name, logo } = usePage().props as { auth: { user: any | null }, name: string, logo: string | null };
+    const { auth, name, logo, cart, cart_count } = usePage().props as any;
+
+    const subtotal = cart?.items?.reduce((acc: number, cartItem: any) => {
+        return acc + (Number(cartItem.item.price) * cartItem.quantity);
+    }, 0) || 0;
+
+    const handleUpdate = (cartItemId: number, action: 'increment' | 'decrement') => {
+        router.put(`/cart/update/${cartItemId}`, { action }, { preserveScroll: true });
+    };
+
+    const handleRemove = (cartItemId: number) => {
+        router.delete(`/cart/remove/${cartItemId}`, { preserveScroll: true });
+    };
     return (
         <div className="landing-theme min-h-screen overflow-x-hidden bg-[var(--landing-bg)] font-sans text-[var(--landing-text)] selection:bg-[var(--landing-accent)] selection:text-white flex flex-col">
             <style>{`
@@ -45,7 +57,9 @@ export default function Cart() {
                     )}
                     <Link href="/cart" className="relative p-2 text-[var(--landing-accent)] transition-colors active:scale-95 touch-target flex items-center justify-center bg-white shadow-sm rounded-full">
                         <ShoppingCart className="h-5 w-5" />
-                        <span className="absolute top-0 right-0 h-4 w-4 bg-[var(--landing-accent)] text-white text-[10px] font-bold flex items-center justify-center rounded-full transform translate-x-1/4 -translate-y-1/4 shadow-sm border border-white">2</span>
+                        {cart_count > 0 && (
+                            <span className="absolute top-0 right-0 h-4 w-4 bg-[var(--landing-accent)] text-white text-[10px] font-bold flex items-center justify-center rounded-full transform translate-x-1/4 -translate-y-1/4 shadow-sm border border-white">{cart_count}</span>
+                        )}
                     </Link>
                 </div>
             </header>
@@ -63,51 +77,38 @@ export default function Cart() {
                 
                 <div className="flex flex-col lg:grid lg:grid-cols-12 gap-8 lg:gap-12 items-start mt-8">
                     <div className="w-full lg:col-span-8 flex flex-col gap-4 sm:gap-6">
-                        {/* Cart Item 1 */}
-                        <div className="flex flex-row items-center gap-4 sm:gap-6 p-4 sm:p-6 rounded-2xl sm:rounded-[2rem] bg-white/70 backdrop-blur-xl border border-white shadow-[0_8px_40px_rgb(0,0,0,0.04)] relative transition-shadow">
-                            <div className="h-20 w-20 sm:h-32 sm:w-32 shrink-0 bg-neutral-100 rounded-xl overflow-hidden shadow-inner border border-black/5">
-                                <img src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=600&auto=format&fit=crop" alt="The Royal Collection" className="h-full w-full object-cover mix-blend-multiply" />
-                            </div>
-                            <div className="flex-1 min-w-0 w-full">
-                                <h3 className="text-base sm:text-xl font-bold text-neutral-900 truncate">The Royal Collection</h3>
-                                <p className="text-xs sm:text-sm font-medium text-neutral-500 mt-0.5 sm:mt-1">AED 850.00</p>
-                                <div className="flex flex-wrap items-center gap-2 sm:gap-6 mt-3 sm:mt-6">
-                                    <div className="flex items-center rounded-full border border-neutral-200 bg-white scale-90 sm:scale-100 origin-left">
-                                        <button className="px-3 py-1 sm:py-1.5 text-neutral-500 hover:text-neutral-900 font-bold active:scale-95 touch-target min-w-[28px] sm:min-w-[32px]">-</button>
-                                        <span className="text-xs sm:text-sm font-bold text-neutral-900 px-2 min-w-[2rem] text-center">1</span>
-                                        <button className="px-3 py-1 sm:py-1.5 text-neutral-500 hover:text-neutral-900 font-bold active:scale-95 touch-target min-w-[28px] sm:min-w-[32px]">+</button>
+                        {cart?.items?.length > 0 ? (
+                            cart.items.map((cartItem: any) => (
+                                <div key={cartItem.id} className="flex flex-row items-center gap-4 sm:gap-6 p-4 sm:p-6 rounded-2xl sm:rounded-[2rem] bg-white/70 backdrop-blur-xl border border-white shadow-[0_8px_40px_rgb(0,0,0,0.04)] relative transition-shadow">
+                                    <div className="h-20 w-20 sm:h-32 sm:w-32 shrink-0 bg-neutral-100 rounded-xl overflow-hidden shadow-inner border border-black/5">
+                                        <img src={cartItem.item.image ? (cartItem.item.image.startsWith('http') ? cartItem.item.image : `/storage/${cartItem.item.image}`) : "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=600&auto=format&fit=crop"} alt={cartItem.item.name} className="h-full w-full object-cover mix-blend-multiply" />
                                     </div>
-                                    <button className="flex items-center gap-1 sm:gap-1.5 text-[10px] sm:text-xs font-bold text-neutral-400 hover:text-red-500 uppercase tracking-widest transition-colors active:scale-95 p-1 sm:p-2 touch-target ml-auto sm:ml-0">
-                                        <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
-                                        <span className="sr-only sm:not-sr-only">Remove</span>
-                                    </button>
-                                </div>
-                            </div>
-                            <div className="hidden lg:block text-xl font-bold text-neutral-900 self-center shrink-0">AED 850.00</div>
-                        </div>
-
-                        {/* Cart Item 2 */}
-                        <div className="flex flex-row items-center gap-4 sm:gap-6 p-4 sm:p-6 rounded-2xl sm:rounded-[2rem] bg-white/70 backdrop-blur-xl border border-white shadow-[0_8px_40px_rgb(0,0,0,0.04)] relative transition-shadow">
-                            <div className="h-20 w-20 sm:h-32 sm:w-32 shrink-0 bg-neutral-100 rounded-xl overflow-hidden shadow-inner border border-black/5">
-                                <img src="https://images.unsplash.com/photo-1558350315-8aa00e8e4590?q=80&w=600&auto=format&fit=crop" alt="Signature Saffron Cake" className="h-full w-full object-cover mix-blend-multiply" />
-                            </div>
-                            <div className="flex-1 min-w-0 w-full">
-                                <h3 className="text-base sm:text-xl font-bold text-neutral-900 truncate">Signature Saffron Cake</h3>
-                                <p className="text-xs sm:text-sm font-medium text-neutral-500 mt-0.5 sm:mt-1">AED 240.00</p>
-                                <div className="flex flex-wrap items-center gap-2 sm:gap-6 mt-3 sm:mt-6">
-                                    <div className="flex items-center rounded-full border border-neutral-200 bg-white scale-90 sm:scale-100 origin-left">
-                                        <button className="px-3 py-1 sm:py-1.5 text-neutral-500 hover:text-neutral-900 font-bold active:scale-95 touch-target min-w-[28px] sm:min-w-[32px]">-</button>
-                                        <span className="text-xs sm:text-sm font-bold text-neutral-900 px-2 min-w-[2rem] text-center">1</span>
-                                        <button className="px-3 py-1 sm:py-1.5 text-neutral-500 hover:text-neutral-900 font-bold active:scale-95 touch-target min-w-[28px] sm:min-w-[32px]">+</button>
+                                    <div className="flex-1 min-w-0 w-full">
+                                        <h3 className="text-base sm:text-xl font-bold text-neutral-900 truncate">{cartItem.item.name}</h3>
+                                        <p className="text-xs sm:text-sm font-medium text-neutral-500 mt-0.5 sm:mt-1">AED {Number(cartItem.item.price).toFixed(2)}</p>
+                                        <div className="flex flex-wrap items-center gap-2 sm:gap-6 mt-3 sm:mt-6">
+                                            <div className="flex items-center rounded-full border border-neutral-200 bg-white scale-90 sm:scale-100 origin-left">
+                                                <button onClick={() => handleUpdate(cartItem.id, 'decrement')} className="px-3 py-1 sm:py-1.5 text-neutral-500 hover:text-neutral-900 font-bold active:scale-95 touch-target min-w-[28px] sm:min-w-[32px]">-</button>
+                                                <span className="text-xs sm:text-sm font-bold text-neutral-900 px-2 min-w-[2rem] text-center">{cartItem.quantity}</span>
+                                                <button onClick={() => handleUpdate(cartItem.id, 'increment')} className="px-3 py-1 sm:py-1.5 text-neutral-500 hover:text-neutral-900 font-bold active:scale-95 touch-target min-w-[28px] sm:min-w-[32px]">+</button>
+                                            </div>
+                                            <button onClick={() => handleRemove(cartItem.id)} className="flex items-center gap-1 sm:gap-1.5 text-[10px] sm:text-xs font-bold text-neutral-400 hover:text-red-500 uppercase tracking-widest transition-colors active:scale-95 p-1 sm:p-2 touch-target ml-auto sm:ml-0">
+                                                <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
+                                                <span className="sr-only sm:not-sr-only">Remove</span>
+                                            </button>
+                                        </div>
                                     </div>
-                                    <button className="flex items-center gap-1 sm:gap-1.5 text-[10px] sm:text-xs font-bold text-neutral-400 hover:text-red-500 uppercase tracking-widest transition-colors active:scale-95 p-1 sm:p-2 touch-target ml-auto sm:ml-0">
-                                        <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
-                                        <span className="sr-only sm:not-sr-only">Remove</span>
-                                    </button>
+                                    <div className="hidden lg:block text-xl font-bold text-neutral-900 self-center shrink-0">AED {(Number(cartItem.item.price) * cartItem.quantity).toFixed(2)}</div>
                                 </div>
+                            ))
+                        ) : (
+                            <div className="text-center py-12 bg-white/50 backdrop-blur-md rounded-3xl border border-white/50">
+                                <p className="text-neutral-500 font-medium">Your cart is empty.</p>
+                                <Link href="/" className="inline-block mt-4 text-xs font-bold tracking-widest uppercase text-white bg-[var(--landing-accent)] hover:bg-[var(--landing-accent-hover)] px-6 py-2.5 rounded-none transition-colors shadow-sm">
+                                    Start Shopping
+                                </Link>
                             </div>
-                            <div className="hidden lg:block text-xl font-bold text-neutral-900 self-center shrink-0">AED 240.00</div>
-                        </div>
+                        )}
                     </div>
 
                     {/* Order Summary */}
@@ -118,7 +119,7 @@ export default function Cart() {
                             <div className="space-y-4 mb-8">
                                 <div className="flex justify-between items-center text-sm font-medium text-neutral-600">
                                     <span>Subtotal</span>
-                                    <span className="text-neutral-900">AED 1,090.00</span>
+                                    <span className="text-neutral-900">AED {subtotal.toFixed(2)}</span>
                                 </div>
                                 <div className="flex justify-between items-center text-sm font-medium text-neutral-600">
                                     <span>Standard Delivery</span>
@@ -127,7 +128,7 @@ export default function Cart() {
                                 <div className="h-px bg-neutral-200/60 my-4" />
                                 <div className="flex justify-between items-center text-lg font-bold text-neutral-900">
                                     <span>Total</span>
-                                    <span className="text-[var(--landing-accent)] text-xl">AED 1,090.00</span>
+                                    <span className="text-[var(--landing-accent)] text-xl">AED {subtotal.toFixed(2)}</span>
                                 </div>
                                 <p className="text-[10px] text-neutral-500 text-right mt-1">Taxes included. Delivery calculated at checkout.</p>
                             </div>
