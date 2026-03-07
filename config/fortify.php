@@ -142,6 +142,7 @@ return [
     */
 
     'features' => [
+        \Laravel\Fortify\Features::registration(),
     ],
 
 ];

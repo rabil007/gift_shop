@@ -31,6 +31,27 @@ function formatAddress(a: SavedAddress): string {
     return parts.join('\n');
 }
 
+function AddressWithLabels({ address, labelClassName = 'text-xs font-bold text-neutral-400 uppercase tracking-wider', valueClassName = 'text-sm text-neutral-600 font-medium' }: { address: SavedAddress; labelClassName?: string; valueClassName?: string }) {
+    const rows: { label: string; value: string }[] = [
+        { label: 'Address line 1', value: address.line_1 },
+        ...(address.line_2 ? [{ label: 'Address line 2', value: address.line_2 }] : []),
+        { label: 'City', value: address.city },
+        ...(address.state ? [{ label: 'State / Region', value: address.state }] : []),
+        ...(address.postal_code ? [{ label: 'Postal code', value: address.postal_code }] : []),
+        ...(address.country ? [{ label: 'Country', value: address.country }] : []),
+    ];
+    return (
+        <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3">
+            {rows.map(({ label, value }) => (
+                <div key={label}>
+                    <dt className={labelClassName}>{label}</dt>
+                    <dd className={`${valueClassName} mt-0.5`}>{value}</dd>
+                </div>
+            ))}
+        </dl>
+    );
+}
+
 export default function Profile() {
     const { name, logo, profile, flash, auth, addresses = [] } = usePage().props as {
         name: string;
@@ -108,7 +129,8 @@ export default function Profile() {
     const displayName = user?.name ?? data.name;
     const displayEmail = user?.email ?? '';
     const displayPhone = isEditing ? data.phone : (user?.phone || data.phone);
-    const displayAddress = isEditing ? data.address : (user?.address || data.address);
+
+    const primaryAddress = addresses.length > 0 ? (addresses.find((a) => a.is_default) ?? addresses[0]) : null;
 
     if (!user) {
         return null;
@@ -279,21 +301,27 @@ export default function Profile() {
 
                                     <div className="space-y-2 md:col-span-2">
                                         <label className="text-xs font-bold text-neutral-400 uppercase tracking-widest">Primary Address</label>
-                                        {isEditing ? (
-                                            <textarea
-                                                value={data.address}
-                                                onChange={(e) => setData('address', e.target.value)}
-                                                rows={3}
-                                                className="bg-white/80 border border-neutral-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--landing-accent)]/20 focus:border-[var(--landing-accent)] w-full text-neutral-900 font-medium resize-none transition-shadow"
-                                            />
+                                        {primaryAddress ? (
+                                            <div className="bg-white/40 border border-black/5 rounded-2xl p-6 relative overflow-hidden">
+                                                <div className="flex justify-between items-start gap-4">
+                                                    <div className="min-w-0 flex-1">
+                                                        {primaryAddress.label && <p className="text-xs font-bold text-neutral-400 uppercase tracking-wider mb-3">{primaryAddress.label}</p>}
+                                                        <AddressWithLabels address={primaryAddress} />
+                                                    </div>
+                                                    <div className="flex gap-2 shrink-0">
+                                                        <button type="button" onClick={() => openEditAddress(primaryAddress)} className="text-xs font-bold tracking-widest uppercase text-[var(--landing-accent)] hover:text-neutral-900 transition-colors">Edit</button>
+                                                        <button type="button" onClick={() => setActiveTab('addresses')} className="text-xs font-bold tracking-widest uppercase text-neutral-400 hover:text-neutral-900 transition-colors">Manage addresses</button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         ) : (
-                                            <div className="bg-white/40 border border-black/5 rounded-2xl p-6 relative group overflow-hidden">
-                                                <p className="whitespace-pre-line text-sm text-neutral-600 leading-relaxed font-medium">
-                                                    {displayAddress || '—'}
-                                                </p>
+                                            <div className="bg-white/60 border border-neutral-200 rounded-2xl p-6">
+                                                <p className="text-sm text-neutral-500 mb-4">No address saved. Add one to use at checkout.</p>
+                                                <button type="button" onClick={openAddAddress} className="text-[var(--landing-accent)] hover:text-neutral-900 text-xs font-bold tracking-widest uppercase transition-colors touch-target py-2 flex items-center gap-1">
+                                                    <span className="text-lg leading-none">+</span> Add New
+                                                </button>
                                             </div>
                                         )}
-                                        {errors.address && <p className="text-sm text-red-600">{errors.address}</p>}
                                     </div>
                                 </div>
 
@@ -348,7 +376,7 @@ export default function Profile() {
                                                         <button type="button" onClick={() => deleteAddress(a)} className="text-xs font-bold tracking-widest uppercase text-neutral-400 hover:text-red-500 transition-colors">Delete</button>
                                                     </div>
                                                 </div>
-                                                <p className="whitespace-pre-line text-sm text-neutral-600 leading-relaxed font-medium">{formatAddress(a)}</p>
+                                                <AddressWithLabels address={a} />
                                             </div>
                                         ))
                                     )}
