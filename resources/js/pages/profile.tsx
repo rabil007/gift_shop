@@ -10,18 +10,41 @@ interface ProfileData {
     address: string;
 }
 
+interface SavedAddress {
+    id: number;
+    label: string;
+    line_1: string;
+    line_2: string | null;
+    city: string;
+    state: string | null;
+    postal_code: string | null;
+    country: string;
+    is_default: boolean;
+}
+
+function formatAddress(a: SavedAddress): string {
+    const parts = [a.line_1];
+    if (a.line_2) parts.push(a.line_2);
+    const cityLine = [a.city, a.state, a.postal_code].filter(Boolean).join(', ');
+    if (cityLine) parts.push(cityLine);
+    if (a.country) parts.push(a.country);
+    return parts.join('\n');
+}
+
 export default function Profile() {
-    const { name, logo, profile, flash, auth } = usePage().props as {
+    const { name, logo, profile, flash, auth, addresses = [] } = usePage().props as {
         name: string;
         logo: string | null;
         profile?: ProfileData;
         flash?: { success?: string };
         auth?: { user?: { name: string; email: string } | null };
+        addresses?: SavedAddress[];
     };
     const user = profile ?? (auth?.user ? { name: auth.user.name, email: auth.user.email, phone: '', address: '' } : null);
     const [isEditing, setIsEditing] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [activeTab, setActiveTab] = useState<'account' | 'addresses'>('account');
+    const [addressModal, setAddressModal] = useState<{ open: boolean; editing: SavedAddress | null }>({ open: false, editing: null });
     const { data, setData, put, processing, errors } = useForm({
         name: user?.name ?? '',
         phone: user?.phone ?? '',
@@ -35,6 +58,51 @@ export default function Profile() {
 
     const handleLogout = () => {
         router.post('/logout');
+    };
+
+    const addressForm = useForm({
+        label: '',
+        line_1: '',
+        line_2: '',
+        city: '',
+        state: '',
+        postal_code: '',
+        country: 'UAE',
+        is_default: false,
+    });
+
+    const openAddAddress = () => {
+        addressForm.reset();
+        setAddressModal({ open: true, editing: null });
+    };
+    const openEditAddress = (a: SavedAddress) => {
+        addressForm.setData({
+            label: a.label,
+            line_1: a.line_1,
+            line_2: a.line_2 ?? '',
+            city: a.city,
+            state: a.state ?? '',
+            postal_code: a.postal_code ?? '',
+            country: a.country,
+            is_default: a.is_default,
+        });
+        setAddressModal({ open: true, editing: a });
+    };
+    const closeAddressModal = () => setAddressModal({ open: false, editing: null });
+    const submitAddress = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (addressModal.editing) {
+            addressForm.put(`/profile/addresses/${addressModal.editing.id}`, { onSuccess: closeAddressModal });
+        } else {
+            addressForm.post('/profile/addresses', { onSuccess: closeAddressModal });
+        }
+    };
+    const deleteAddress = (a: SavedAddress) => {
+        if (!confirm(`Delete "${a.label}"?`)) return;
+        router.delete(`/profile/addresses/${a.id}`);
+    };
+    const setDefaultAddress = (a: SavedAddress) => {
+        router.post(`/profile/addresses/${a.id}/default`);
     };
 
     const displayName = user?.name ?? data.name;
@@ -250,48 +318,99 @@ export default function Profile() {
                             </form>
                         ) : (
                             <div className="rounded-2xl sm:rounded-[2.5rem] bg-white/70 backdrop-blur-3xl border border-white shadow-[0_8px_40px_rgb(0,0,0,0.04)] p-6 sm:p-10 relative overflow-hidden">
+                                {flash?.success && (
+                                    <div className="mb-6 rounded-xl bg-emerald-50 border border-emerald-200 px-4 py-3 text-sm text-emerald-800">
+                                        {flash.success}
+                                    </div>
+                                )}
                                 <div className="flex items-center justify-between mb-8">
                                     <h2 className="text-2xl font-serif font-bold text-neutral-900">Saved Addresses</h2>
-                                    <button className="text-[var(--landing-accent)] hover:text-neutral-900 text-xs font-bold tracking-widest uppercase transition-colors touch-target py-2 flex items-center gap-1">
+                                    <button type="button" onClick={openAddAddress} className="text-[var(--landing-accent)] hover:text-neutral-900 text-xs font-bold tracking-widest uppercase transition-colors touch-target py-2 flex items-center gap-1">
                                         <span className="text-lg leading-none">+</span> Add New
                                     </button>
                                 </div>
                                 <div className="flex flex-col gap-4 relative z-10 w-full">
-                                    <div className="bg-white/60 border-2 border-[var(--landing-accent)]/20 rounded-2xl p-6 relative group overflow-hidden shadow-sm">
-                                        <div className="flex justify-between items-start mb-2">
-                                            <div className="flex items-center gap-2">
-                                                <h3 className="font-bold text-neutral-900">Home</h3>
-                                                <span className="bg-[var(--landing-accent)]/10 text-[var(--landing-accent)] text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full">Default</span>
+                                    {addresses.length === 0 ? (
+                                        <p className="text-sm text-neutral-500 py-8 text-center">No saved addresses. Add one to use at checkout.</p>
+                                    ) : (
+                                        addresses.map((a) => (
+                                            <div key={a.id} className={`rounded-2xl p-6 relative overflow-hidden shadow-sm ${a.is_default ? 'bg-white/60 border-2 border-[var(--landing-accent)]/20' : 'bg-white/40 border border-black/5 hover:border-black/10 transition-colors'}`}>
+                                                <div className="flex justify-between items-start mb-2">
+                                                    <div className="flex items-center gap-2">
+                                                        <h3 className="font-bold text-neutral-900">{a.label}</h3>
+                                                        {a.is_default && <span className="bg-[var(--landing-accent)]/10 text-[var(--landing-accent)] text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full">Default</span>}
+                                                    </div>
+                                                    <div className="flex gap-3">
+                                                        {!a.is_default && (
+                                                            <button type="button" onClick={() => setDefaultAddress(a)} className="text-xs font-bold tracking-widest uppercase text-neutral-400 hover:text-[var(--landing-accent)] transition-colors">Set default</button>
+                                                        )}
+                                                        <button type="button" onClick={() => openEditAddress(a)} className="text-xs font-bold tracking-widest uppercase text-neutral-400 hover:text-[var(--landing-accent)] transition-colors">Edit</button>
+                                                        <button type="button" onClick={() => deleteAddress(a)} className="text-xs font-bold tracking-widest uppercase text-neutral-400 hover:text-red-500 transition-colors">Delete</button>
+                                                    </div>
+                                                </div>
+                                                <p className="whitespace-pre-line text-sm text-neutral-600 leading-relaxed font-medium">{formatAddress(a)}</p>
                                             </div>
-                                            <div className="flex gap-3">
-                                                <button className="text-xs font-bold tracking-widest uppercase text-neutral-400 hover:text-[var(--landing-accent)] transition-colors">Edit</button>
-                                                <button className="text-xs font-bold tracking-widest uppercase text-neutral-400 hover:text-red-500 transition-colors">Delete</button>
-                                            </div>
-                                        </div>
-                                        <p className="whitespace-pre-line text-sm text-neutral-600 leading-relaxed font-medium">
-                                            Dubai Marina, Tower A{'\n'}Apartment 402{'\n'}Dubai, UAE
-                                        </p>
-                                    </div>
-                                    <div className="bg-white/40 border border-black/5 hover:border-black/10 transition-colors rounded-2xl p-6 relative group overflow-hidden">
-                                        <div className="flex justify-between items-start mb-2">
-                                            <div className="flex items-center gap-2">
-                                                <h3 className="font-bold text-neutral-900">Office</h3>
-                                            </div>
-                                            <div className="flex gap-3">
-                                                <button className="text-xs font-bold tracking-widest uppercase text-neutral-400 hover:text-[var(--landing-accent)] transition-colors">Edit</button>
-                                                <button className="text-xs font-bold tracking-widest uppercase text-neutral-400 hover:text-red-500 transition-colors">Delete</button>
-                                            </div>
-                                        </div>
-                                        <p className="whitespace-pre-line text-sm text-neutral-600 leading-relaxed font-medium">
-                                            Downtown Dubai, Boulevard Plaza{'\n'}Tower 1, Level 14{'\n'}Dubai, UAE
-                                        </p>
-                                    </div>
+                                        ))
+                                    )}
                                 </div>
                             </div>
                         )}
                     </div>
                 </div>
             </main>
+
+            {addressModal.open && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40" onClick={closeAddressModal}>
+                    <div className="bg-white rounded-2xl shadow-xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6" onClick={(e) => e.stopPropagation()}>
+                        <h3 className="text-xl font-bold text-neutral-900 mb-6">{addressModal.editing ? 'Edit address' : 'Add address'}</h3>
+                        <form onSubmit={submitAddress} className="space-y-4">
+                            <div>
+                                <label className="block text-xs font-bold text-neutral-500 uppercase tracking-wider mb-1">Label (e.g. Home, Office)</label>
+                                <input type="text" value={addressForm.data.label} onChange={(e) => addressForm.setData('label', e.target.value)} className="block w-full rounded-xl border border-neutral-200 px-4 py-2.5 text-neutral-900 focus:ring-2 focus:ring-[var(--landing-accent)]/20 focus:border-[var(--landing-accent)]" required />
+                                {addressForm.errors.label && <p className="text-sm text-red-600 mt-1">{addressForm.errors.label}</p>}
+                            </div>
+                            <div>
+                                <label className="block text-xs font-bold text-neutral-500 uppercase tracking-wider mb-1">Address line 1</label>
+                                <input type="text" value={addressForm.data.line_1} onChange={(e) => addressForm.setData('line_1', e.target.value)} className="block w-full rounded-xl border border-neutral-200 px-4 py-2.5 text-neutral-900 focus:ring-2 focus:ring-[var(--landing-accent)]/20 focus:border-[var(--landing-accent)]" required />
+                                {addressForm.errors.line_1 && <p className="text-sm text-red-600 mt-1">{addressForm.errors.line_1}</p>}
+                            </div>
+                            <div>
+                                <label className="block text-xs font-bold text-neutral-500 uppercase tracking-wider mb-1">Address line 2 (optional)</label>
+                                <input type="text" value={addressForm.data.line_2} onChange={(e) => addressForm.setData('line_2', e.target.value)} className="block w-full rounded-xl border border-neutral-200 px-4 py-2.5 text-neutral-900 focus:ring-2 focus:ring-[var(--landing-accent)]/20 focus:border-[var(--landing-accent)]" />
+                            </div>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-xs font-bold text-neutral-500 uppercase tracking-wider mb-1">City</label>
+                                    <input type="text" value={addressForm.data.city} onChange={(e) => addressForm.setData('city', e.target.value)} className="block w-full rounded-xl border border-neutral-200 px-4 py-2.5 text-neutral-900 focus:ring-2 focus:ring-[var(--landing-accent)]/20 focus:border-[var(--landing-accent)]" required />
+                                    {addressForm.errors.city && <p className="text-sm text-red-600 mt-1">{addressForm.errors.city}</p>}
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-bold text-neutral-500 uppercase tracking-wider mb-1">State / Region</label>
+                                    <input type="text" value={addressForm.data.state} onChange={(e) => addressForm.setData('state', e.target.value)} className="block w-full rounded-xl border border-neutral-200 px-4 py-2.5 text-neutral-900 focus:ring-2 focus:ring-[var(--landing-accent)]/20 focus:border-[var(--landing-accent)]" />
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-xs font-bold text-neutral-500 uppercase tracking-wider mb-1">Postal code</label>
+                                    <input type="text" value={addressForm.data.postal_code} onChange={(e) => addressForm.setData('postal_code', e.target.value)} className="block w-full rounded-xl border border-neutral-200 px-4 py-2.5 text-neutral-900 focus:ring-2 focus:ring-[var(--landing-accent)]/20 focus:border-[var(--landing-accent)]" />
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-bold text-neutral-500 uppercase tracking-wider mb-1">Country</label>
+                                    <input type="text" value={addressForm.data.country} onChange={(e) => addressForm.setData('country', e.target.value)} className="block w-full rounded-xl border border-neutral-200 px-4 py-2.5 text-neutral-900 focus:ring-2 focus:ring-[var(--landing-accent)]/20 focus:border-[var(--landing-accent)]" />
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <input type="checkbox" id="addr_default" checked={addressForm.data.is_default} onChange={(e) => addressForm.setData('is_default', e.target.checked)} className="rounded border-neutral-300 text-[var(--landing-accent)] focus:ring-[var(--landing-accent)]" />
+                                <label htmlFor="addr_default" className="text-sm font-medium text-neutral-700">Set as default address</label>
+                            </div>
+                            <div className="flex gap-3 pt-4">
+                                <button type="button" onClick={closeAddressModal} className="flex-1 py-2.5 rounded-xl border border-neutral-200 text-neutral-700 font-bold text-sm uppercase tracking-wider">Cancel</button>
+                                <button type="submit" disabled={addressForm.processing} className="flex-1 py-2.5 rounded-xl bg-[var(--landing-accent)] text-white font-bold text-sm uppercase tracking-wider disabled:opacity-70">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
 
             <footer className="relative z-10 border-t border-black/5 bg-transparent pt-12 sm:pt-16 pb-6 sm:pb-8 px-4 sm:px-6 lg:px-12 text-center md:text-left mt-auto">
                 <div className="mx-auto max-w-6xl flex flex-col md:flex-row justify-between items-center gap-6 sm:gap-8">
