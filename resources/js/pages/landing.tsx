@@ -12,7 +12,7 @@ import {
 } from '@/components/landing';
 
 export default function Landing() {
-    const { flash, auth, name, logo, featuredItems = [], cart_count = 0 } = usePage().props as unknown as { flash?: { success?: string }, auth: { user: any | null }, name: string, logo: string | null, featuredItems?: any[], cart_count?: number };
+    const { flash, auth, name, logo, featuredItems = [], testimonials = [], cart_count = 0 } = usePage().props as unknown as { flash?: { success?: string }, auth: { user: any | null }, name: string, logo: string | null, featuredItems?: any[], testimonials?: any[], cart_count?: number };
     const enquiryForm = useForm({
         name: '',
         email: '',
@@ -73,7 +73,7 @@ export default function Landing() {
                 <HeroSection />
                 <CollectionsSection />
                 <FeaturedSection featuredItems={featuredItems} />
-                <TestimonialsSection />
+                <TestimonialsSection testimonials={testimonials} />
                 <WhyUsSection />
                 <AboutSection />
                 <EnquirySection flashSuccess={flash?.success} form={enquiryForm} />

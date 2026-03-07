@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
+use App\Models\Testimonial;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -19,8 +20,14 @@ class HomeController extends Controller
             ->get()
             ->map(fn ($item) => $this->formatItem($item));
 
+        $testimonials = Testimonial::where('is_active', true)
+            ->orderBy('sort_order')
+            ->orderByDesc('created_at')
+            ->get();
+
         return Inertia::render('landing', [
             'featuredItems' => $featuredItems,
+            'testimonials' => $testimonials,
         ]);
     }
 

@@ -63,4 +63,13 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
         Route::put('/{item}', [App\Http\Controllers\Admin\ItemController::class, 'update'])->name('update');
         Route::delete('/{item}', [App\Http\Controllers\Admin\ItemController::class, 'destroy'])->name('destroy');
     });
+
+    Route::prefix('testimonials')->name('testimonials.')->group(function () {
+        Route::get('/', [App\Http\Controllers\TestimonialController::class, 'index'])->name('index');
+        Route::get('/create', [App\Http\Controllers\TestimonialController::class, 'create'])->name('create');
+        Route::post('/', [App\Http\Controllers\TestimonialController::class, 'store'])->name('store');
+        Route::get('/{testimonial}/edit', [App\Http\Controllers\TestimonialController::class, 'edit'])->name('edit');
+        Route::put('/{testimonial}', [App\Http\Controllers\TestimonialController::class, 'update'])->name('update');
+        Route::delete('/{testimonial}', [App\Http\Controllers\TestimonialController::class, 'destroy'])->name('destroy');
+    });
 });

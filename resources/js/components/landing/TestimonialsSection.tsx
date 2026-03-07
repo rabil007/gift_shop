@@ -1,8 +1,17 @@
 import { Star } from 'lucide-react';
 import { Carousel } from './Carousel';
-import { testimonials } from './data';
 
-export function TestimonialsSection() {
+interface Testimonial {
+    id: number;
+    name: string;
+    role: string | null;
+    quote: string;
+    rating: number;
+}
+
+export function TestimonialsSection({ testimonials }: { testimonials: Testimonial[] }) {
+    if (!testimonials || testimonials.length === 0) return null;
+
     return (
         <section className="mt-20 sm:mt-24 md:mt-32 px-4 sm:px-6 max-w-6xl mx-auto">
             <div className="mb-8 sm:mb-10 px-2 sm:px-4">
@@ -21,7 +30,7 @@ export function TestimonialsSection() {
                         className="w-[280px] sm:w-[320px] md:w-[360px] shrink-0 rounded-2xl bg-white/70 backdrop-blur-xl border border-white shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all p-5 sm:p-6 md:p-8 flex flex-col m-2 [scroll-snap-align:start]"
                     >
                         <div className="flex gap-1 mb-4">
-                            {[...Array(5)].map((_, j) => (
+                            {[...Array(t.rating || 5)].map((_, j) => (
                                 <Star key={j} className="h-4 w-4 fill-[var(--landing-accent)] text-[var(--landing-accent)]" />
                             ))}
                         </div>
