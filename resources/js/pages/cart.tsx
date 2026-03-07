@@ -1,8 +1,9 @@
 import { Link, usePage } from '@inertiajs/react';
-import { Gift, ShoppingCart, ArrowLeft, Trash2, Lock, User } from 'lucide-react';
+import { ShoppingCart, ArrowLeft, Trash2, Lock, User } from 'lucide-react';
+import { Logo } from '@/components/Logo';
 
 export default function Cart() {
-    const { auth, name } = usePage().props as { auth: { user: any | null }, name: string };
+    const { auth, name, logo } = usePage().props as { auth: { user: any | null }, name: string, logo: string | null };
     return (
         <div className="landing-theme min-h-screen overflow-x-hidden bg-[var(--landing-bg)] font-sans text-[var(--landing-text)] selection:bg-[var(--landing-accent)] selection:text-white flex flex-col">
             <style>{`
@@ -23,7 +24,7 @@ export default function Cart() {
 
             <header className="relative z-50 flex h-14 sm:h-20 items-center justify-between px-4 sm:px-6 lg:px-12 border-b border-black/5 bg-white/30 backdrop-blur-md">
                 <Link href="/" className="flex items-center gap-2 transition-opacity active:opacity-80 touch-target py-2 -my-2 shadow-[0_4px_20px_rgb(0,0,0,0.03)] rounded-full px-3 bg-white/60">
-                    <Gift className="h-5 w-5 text-neutral-900 shrink-0" />
+                    <Logo logo={logo} name={name} iconClassName="text-neutral-900" />
                     <span className="text-lg sm:text-xl font-bold tracking-tight text-neutral-900">
                         {name}
                     </span>
@@ -146,7 +147,7 @@ export default function Cart() {
                 <div className="mx-auto max-w-6xl flex flex-col md:flex-row justify-between items-center gap-6 sm:gap-8">
                     <div>
                         <Link href="/" className="flex items-center justify-center md:justify-start gap-2 mb-2 touch-target py-2">
-                            <Gift className="h-5 w-5 text-neutral-900 shrink-0" />
+                            <Logo logo={logo} name={name} iconClassName="text-neutral-900" />
                             <span className="text-lg sm:text-xl font-bold tracking-tight text-neutral-900">
                                 {name}
                             </span>

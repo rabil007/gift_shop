@@ -36,11 +36,15 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $logoPath = \Illuminate\Support\Facades\Schema::hasTable('settings') ? Setting::get('logo') : null;
+        $logoUrl = $logoPath ? \Illuminate\Support\Facades\Storage::disk('public')->url($logoPath) : null;
+
         return [
             ...parent::share($request),
             'name' => \Illuminate\Support\Facades\Schema::hasTable('settings')
                 ? (Setting::get('app_name') ?? config('app.name'))
                 : config('app.name'),
+            'logo' => $logoUrl,
             'auth' => [
                 'user' => $request->user(),
             ],

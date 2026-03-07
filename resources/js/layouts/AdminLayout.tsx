@@ -2,7 +2,7 @@ import { Link, usePage } from '@inertiajs/react';
 import { LayoutDashboard, Users, ShoppingBag, Settings, LogOut } from 'lucide-react';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-    const { auth, name } = usePage().props as { auth: { user: any | null }, name: string };
+    const { auth, name, logo } = usePage().props as { auth: { user: any | null }, name: string, logo: string | null };
     
     // We'll use a clean, sophisticated dark/light look for the admin panel, distinct from the customer-facing gold/cream theme.
     
@@ -13,9 +13,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <aside className="w-64 bg-slate-900 text-slate-300 flex flex-col hidden md:flex shrink-0 border-r border-slate-800">
                 <div className="h-16 flex items-center px-6 border-b border-slate-800">
                     <span className="text-xl font-bold tracking-tight text-white flex items-center gap-2">
-                        <div className="w-6 h-6 rounded bg-teal-600 flex items-center justify-center">
-                            <span className="text-xs font-black text-white">A</span>
-                        </div>
+                        {logo ? (
+                            <img src={logo} alt={name} className="h-6 w-6 w-auto object-contain" />
+                        ) : (
+                            <div className="w-6 h-6 rounded bg-teal-600 flex items-center justify-center">
+                                <span className="text-xs font-black text-white">A</span>
+                            </div>
+                        )}
                         {name}<span className="font-medium text-slate-400"> Admin</span>
                     </span>
                 </div>
@@ -65,9 +69,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-4 sm:px-6 lg:px-8 shrink-0 relative z-10 shadow-sm shadow-slate-100">
                     {/* Mobile Logo */}
                     <div className="flex items-center md:hidden gap-3">
-                        <div className="w-8 h-8 rounded bg-teal-600 flex items-center justify-center">
-                            <span className="text-sm font-black text-white">A</span>
-                        </div>
+                        {logo ? (
+                            <img src={logo} alt={name} className="h-8 w-8 w-auto object-contain" />
+                        ) : (
+                            <div className="w-8 h-8 rounded bg-teal-600 flex items-center justify-center">
+                                <span className="text-sm font-black text-white">A</span>
+                            </div>
+                        )}
                         <span className="text-lg font-bold tracking-tight text-slate-900">
                             {name}<span className="font-medium text-slate-500"> Admin</span>
                         </span>

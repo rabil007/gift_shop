@@ -1,11 +1,13 @@
 import { Head, useForm, usePage } from '@inertiajs/react';
 import AdminLayout from '@/layouts/AdminLayout';
-import { Save, Building2, Check } from 'lucide-react';
+import { Save, Building2, Check, Image } from 'lucide-react';
 
-export default function Settings({ appName }: { appName: string }) {
+export default function Settings({ appName, logoUrl }: { appName: string; logoUrl: string | null }) {
     const { flash } = usePage().props as { flash?: { success?: string } };
-    const { data, setData, put, processing, errors } = useForm({
+    const { data, setData, post, processing, errors } = useForm({
         app_name: appName,
+        logo: null as File | null,
+        _method: 'put',
     });
 
     return (
@@ -33,9 +35,10 @@ export default function Settings({ appName }: { appName: string }) {
                 <form
                     onSubmit={(e) => {
                         e.preventDefault();
-                        put('/admin/settings');
+                        post('/admin/settings', { forceFormData: true, preserveScroll: true });
                     }}
                     className="p-5 sm:p-6 space-y-5"
+                    encType="multipart/form-data"
                 >
                     <div>
                         <label htmlFor="app_name" className="block text-sm font-medium text-slate-700 mb-1.5">
@@ -55,6 +58,34 @@ export default function Settings({ appName }: { appName: string }) {
                         <p className="mt-1.5 text-xs text-slate-500">
                             This name appears in the header and footer of the storefront and in the admin panel.
                         </p>
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-slate-700 mb-1.5 flex items-center gap-2">
+                            <Image className="h-4 w-4 text-teal-600" />
+                            Logo
+                        </label>
+                        <div className="flex items-center gap-4 flex-wrap">
+                            {(logoUrl || data.logo) && (
+                                <div className="w-16 h-16 rounded-lg border border-slate-200 bg-slate-50 overflow-hidden flex items-center justify-center shrink-0">
+                                    {data.logo ? (
+                                        <img src={URL.createObjectURL(data.logo)} alt="Logo preview" className="w-full h-full object-contain" />
+                                    ) : (
+                                        <img src={logoUrl!} alt="Current logo" className="w-full h-full object-contain" />
+                                    )}
+                                </div>
+                            )}
+                            <div className="flex flex-col gap-1">
+                                <input
+                                    id="logo"
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={(e) => setData('logo', e.target.files?.[0] ?? null)}
+                                    className="block w-full text-sm text-slate-500 file:mr-3 file:rounded-lg file:border-0 file:bg-teal-50 file:px-3 file:py-2 file:text-sm file:font-medium file:text-teal-700 hover:file:bg-teal-100"
+                                />
+                                <p className="text-xs text-slate-500">PNG, JPG or GIF. Max 2MB. Shown in header and footer site-wide.</p>
+                                {errors.logo && <p className="text-sm text-red-600">{errors.logo}</p>}
+                            </div>
+                        </div>
                     </div>
                     <div className="flex items-center gap-3 pt-1">
                         <button

@@ -1,9 +1,10 @@
 import { Link, useForm, Head, usePage } from '@inertiajs/react';
-import { Gift, Mail, Lock, AlertCircle } from 'lucide-react';
+import { Mail, Lock, AlertCircle } from 'lucide-react';
+import { Logo } from '@/components/Logo';
 import { FormEventHandler } from 'react';
 
 export default function Login() {
-    const { name } = usePage().props as { name: string };
+    const { name, logo } = usePage().props as { name: string, logo: string | null };
     const { data, setData, post, processing, errors, reset } = useForm({
         email: '',
         password: '',
@@ -36,7 +37,7 @@ export default function Login() {
             
             <div className="sm:mx-auto sm:w-full sm:max-w-md relative z-10">
                 <Link href="/" className="flex items-center justify-center gap-2 mb-6 transition-transform hover:scale-105 active:scale-95 touch-target">
-                    <Gift className="h-8 w-8 text-[var(--landing-text)]" />
+                    <Logo logo={logo} name={name} className="h-8 w-8" iconClassName="text-[var(--landing-text)]" />
                     <span className="text-3xl font-bold tracking-tight text-[var(--landing-text)]">
                         {name}
                     </span>
