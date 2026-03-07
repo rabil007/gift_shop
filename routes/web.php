@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
@@ -8,7 +9,10 @@ use Inertia\Inertia;
 Route::get('/', [HomeController::class, 'landing'])->name('home');
 Route::get('/shop', [HomeController::class, 'shop'])->name('shop');
 Route::get('/cart', fn () => Inertia::render('cart'))->name('cart');
-Route::get('/profile', fn () => Inertia::render('profile'))->name('profile');
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+});
 Route::get('/item/{id}', [HomeController::class, 'item'])->name('item.show');
 
 // Auth routes (placeholders for auth views)

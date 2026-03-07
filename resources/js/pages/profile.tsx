@@ -1,24 +1,50 @@
 import { useState, useRef } from 'react';
-import { Link, usePage } from '@inertiajs/react';
-import { ShoppingCart, ArrowLeft, Package, User as UserIcon, LogOut, MapPin, Phone, Mail, Camera } from 'lucide-react';
+import { Link, usePage, useForm, router } from '@inertiajs/react';
+import { ShoppingCart, ArrowLeft, User as UserIcon, LogOut, MapPin, Camera } from 'lucide-react';
 import { Logo } from '@/components/Logo';
 
+interface ProfileData {
+    name: string;
+    email: string;
+    phone: string;
+    address: string;
+}
+
 export default function Profile() {
-    const { name, logo } = usePage().props as { name: string, logo: string | null };
+    const { name, logo, profile, flash, auth } = usePage().props as {
+        name: string;
+        logo: string | null;
+        profile?: ProfileData;
+        flash?: { success?: string };
+        auth?: { user?: { name: string; email: string } | null };
+    };
+    const user = profile ?? (auth?.user ? { name: auth.user.name, email: auth.user.email, phone: '', address: '' } : null);
     const [isEditing, setIsEditing] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [activeTab, setActiveTab] = useState<'account' | 'addresses'>('account');
-    const [userDetails, setUserDetails] = useState({
-        name: 'John Doe',
-        email: 'john.doe@example.com',
-        phone: '+971 50 123 4567',
-        address: 'Dubai Marina, Tower A\nApartment 402\nDubai, UAE'
+    const { data, setData, put, processing, errors } = useForm({
+        name: user?.name ?? '',
+        phone: user?.phone ?? '',
+        address: user?.address ?? '',
     });
 
-    const handleSave = () => {
-        setIsEditing(false);
-        // Here you would typically make an API call to save the user details
+    const handleSave = (e: React.FormEvent) => {
+        e.preventDefault();
+        put('/profile', { onSuccess: () => setIsEditing(false) });
     };
+
+    const handleLogout = () => {
+        router.post('/logout');
+    };
+
+    const displayName = user?.name ?? data.name;
+    const displayEmail = user?.email ?? '';
+    const displayPhone = isEditing ? data.phone : (user?.phone || data.phone);
+    const displayAddress = isEditing ? data.address : (user?.address || data.address);
+
+    if (!user) {
+        return null;
+    }
 
     return (
         <div className="landing-theme min-h-screen overflow-x-hidden bg-[var(--landing-bg)] font-sans text-[var(--landing-text)] selection:bg-[var(--landing-accent)] selection:text-white flex flex-col">
@@ -97,8 +123,8 @@ export default function Profile() {
                                         }}
                                     />
                                 </div>
-                                <h2 className="text-2xl font-serif font-bold text-neutral-900 mb-1">{userDetails.name}</h2>
-                                <p className="text-sm font-medium text-neutral-500">{userDetails.email}</p>
+                                <h2 className="text-2xl font-serif font-bold text-neutral-900 mb-1">{displayName}</h2>
+                                <p className="text-sm font-medium text-neutral-500">{displayEmail}</p>
                             </div>
                         </div>
 
@@ -118,7 +144,7 @@ export default function Profile() {
                                 Saved Addresses
                             </button>
                             <div className="h-px bg-black/5 my-2"></div>
-                            <button className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-50 text-red-600 font-bold text-sm transition-all touch-target">
+                            <button type="button" onClick={handleLogout} className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-50 text-red-600 font-bold text-sm transition-all touch-target w-full text-left">
                                 <LogOut className="h-4 w-4 shrink-0" />
                                 Sign Out
                             </button>
@@ -128,11 +154,17 @@ export default function Profile() {
                     {/* Main Content Area */}
                     <div className="w-full lg:col-span-8 flex flex-col gap-6 sm:gap-8">
                         {activeTab === 'account' ? (
-                            <div className="rounded-2xl sm:rounded-[2.5rem] bg-white/70 backdrop-blur-3xl border border-white shadow-[0_8px_40px_rgb(0,0,0,0.04)] p-6 sm:p-10 relative overflow-hidden">
+                            <form onSubmit={handleSave} className="rounded-2xl sm:rounded-[2.5rem] bg-white/70 backdrop-blur-3xl border border-white shadow-[0_8px_40px_rgb(0,0,0,0.04)] p-6 sm:p-10 relative overflow-hidden">
+                                {flash?.success && (
+                                    <div className="mb-6 rounded-xl bg-emerald-50 border border-emerald-200 px-4 py-3 text-sm text-emerald-800">
+                                        {flash.success}
+                                    </div>
+                                )}
                                 <div className="flex items-center justify-between mb-8">
                                     <h2 className="text-2xl font-serif font-bold text-neutral-900">Personal Information</h2>
                                     {!isEditing && (
-                                        <button 
+                                        <button
+                                            type="button"
                                             onClick={() => setIsEditing(true)}
                                             className="text-[var(--landing-accent)] hover:text-neutral-900 text-xs font-bold tracking-widest uppercase transition-colors touch-target py-2"
                                         >
@@ -145,86 +177,77 @@ export default function Profile() {
                                     <div className="space-y-2">
                                         <label className="text-xs font-bold text-neutral-400 uppercase tracking-widest">Full Name</label>
                                         {isEditing ? (
-                                            <input 
-                                                type="text" 
-                                                value={userDetails.name}
-                                                onChange={(e) => setUserDetails({...userDetails, name: e.target.value})}
+                                            <input
+                                                type="text"
+                                                value={data.name}
+                                                onChange={(e) => setData('name', e.target.value)}
                                                 className="bg-white/80 border border-neutral-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--landing-accent)]/20 focus:border-[var(--landing-accent)] w-full text-neutral-900 font-medium transition-shadow"
                                             />
                                         ) : (
-                                            <p className="text-base font-medium text-neutral-900 px-1 py-3 border border-transparent">{userDetails.name}</p>
+                                            <p className="text-base font-medium text-neutral-900 px-1 py-3 border border-transparent">{displayName}</p>
                                         )}
+                                        {errors.name && <p className="text-sm text-red-600">{errors.name}</p>}
                                     </div>
-                                    
+
                                     <div className="space-y-2">
                                         <label className="text-xs font-bold text-neutral-400 uppercase tracking-widest">Email Address</label>
-                                        {isEditing ? (
-                                            <input 
-                                                type="email" 
-                                                value={userDetails.email}
-                                                onChange={(e) => setUserDetails({...userDetails, email: e.target.value})}
-                                                className="bg-white/80 border border-neutral-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--landing-accent)]/20 focus:border-[var(--landing-accent)] w-full text-neutral-900 font-medium transition-shadow"
-                                            />
-                                        ) : (
-                                            <p className="text-base font-medium text-neutral-900 px-1 py-3 border border-transparent">{userDetails.email}</p>
-                                        )}
+                                        <p className="text-base font-medium text-neutral-900 px-1 py-3 border border-transparent">{displayEmail}</p>
                                     </div>
 
                                     <div className="space-y-2">
                                         <label className="text-xs font-bold text-neutral-400 uppercase tracking-widest">Phone Number</label>
                                         {isEditing ? (
-                                            <div className="flex">
-                                                <span className="inline-flex items-center px-4 rounded-l-xl border border-r-0 border-neutral-200 bg-neutral-50 text-neutral-500 font-medium text-sm">
-                                                    UAE
-                                                </span>
-                                                <input 
-                                                    type="tel" 
-                                                    value={userDetails.phone}
-                                                    onChange={(e) => setUserDetails({...userDetails, phone: e.target.value})}
-                                                    className="bg-white/80 border border-neutral-200 rounded-r-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--landing-accent)]/20 focus:border-[var(--landing-accent)] w-full text-neutral-900 font-medium transition-shadow"
-                                                />
-                                            </div>
+                                            <input
+                                                type="tel"
+                                                value={data.phone}
+                                                onChange={(e) => setData('phone', e.target.value)}
+                                                className="bg-white/80 border border-neutral-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--landing-accent)]/20 focus:border-[var(--landing-accent)] w-full text-neutral-900 font-medium transition-shadow"
+                                            />
                                         ) : (
-                                            <p className="text-base font-medium text-neutral-900 px-1 py-3 border border-transparent">{userDetails.phone}</p>
+                                            <p className="text-base font-medium text-neutral-900 px-1 py-3 border border-transparent">{displayPhone || '—'}</p>
                                         )}
+                                        {errors.phone && <p className="text-sm text-red-600">{errors.phone}</p>}
                                     </div>
 
                                     <div className="space-y-2 md:col-span-2">
                                         <label className="text-xs font-bold text-neutral-400 uppercase tracking-widest">Primary Address</label>
                                         {isEditing ? (
-                                            <textarea 
-                                                value={userDetails.address}
-                                                onChange={(e) => setUserDetails({...userDetails, address: e.target.value})}
+                                            <textarea
+                                                value={data.address}
+                                                onChange={(e) => setData('address', e.target.value)}
                                                 rows={3}
                                                 className="bg-white/80 border border-neutral-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--landing-accent)]/20 focus:border-[var(--landing-accent)] w-full text-neutral-900 font-medium resize-none transition-shadow"
                                             />
                                         ) : (
                                             <div className="bg-white/40 border border-black/5 rounded-2xl p-6 relative group overflow-hidden">
                                                 <p className="whitespace-pre-line text-sm text-neutral-600 leading-relaxed font-medium">
-                                                    {userDetails.address}
+                                                    {displayAddress || '—'}
                                                 </p>
                                             </div>
                                         )}
+                                        {errors.address && <p className="text-sm text-red-600">{errors.address}</p>}
                                     </div>
                                 </div>
 
                                 {isEditing && (
                                     <div className="mt-10 flex gap-4 w-full sm:w-auto">
-                                        <button 
+                                        <button
+                                            type="button"
                                             onClick={() => setIsEditing(false)}
                                             className="flex-1 sm:flex-none bg-white hover:bg-neutral-50 text-neutral-900 border border-neutral-200 rounded-xl px-8 h-12 text-xs font-bold tracking-widest uppercase transition-all touch-target active:scale-[0.98]"
                                         >
                                             Cancel
                                         </button>
-                                        <button 
-                                            onClick={handleSave}
-                                            className="flex-1 sm:flex-none relative z-10 bg-[var(--landing-accent)] hover:bg-[var(--landing-accent-hover)] text-white border border-transparent rounded-xl px-8 h-12 text-xs font-bold tracking-widest uppercase transition-all shadow-md touch-target active:scale-[0.98]"
+                                        <button
+                                            type="submit"
+                                            disabled={processing}
+                                            className="flex-1 sm:flex-none relative z-10 bg-[var(--landing-accent)] hover:bg-[var(--landing-accent-hover)] text-white border border-transparent rounded-xl px-8 h-12 text-xs font-bold tracking-widest uppercase transition-all shadow-md touch-target active:scale-[0.98] disabled:opacity-70"
                                         >
                                             Save Changes
                                         </button>
                                     </div>
                                 )}
-                            </div>
+                            </form>
                         ) : (
                             <div className="rounded-2xl sm:rounded-[2.5rem] bg-white/70 backdrop-blur-3xl border border-white shadow-[0_8px_40px_rgb(0,0,0,0.04)] p-6 sm:p-10 relative overflow-hidden">
                                 <div className="flex items-center justify-between mb-8">
