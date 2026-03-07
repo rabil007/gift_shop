@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use App\Models\Testimonial;
+use App\Models\Feature;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -25,9 +26,14 @@ class HomeController extends Controller
             ->orderByDesc('created_at')
             ->get();
 
+        $features = Feature::where('is_active', true)
+            ->orderBy('sort_order')
+            ->get();
+
         return Inertia::render('landing', [
             'featuredItems' => $featuredItems,
             'testimonials' => $testimonials,
+            'features' => $features,
         ]);
     }
 

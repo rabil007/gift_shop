@@ -13,7 +13,7 @@ type EnquiryForm = {
     post: (url: string, options?: { preserveScroll?: boolean, onSuccess?: () => void }) => void;
     processing: boolean;
     errors: Record<string, string | undefined>;
-    reset: (...fields: string[]) => void;
+    reset: (...fields: Array<'name' | 'email' | 'subject' | 'message'>) => void;
 };
 
 type Props = {

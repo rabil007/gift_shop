@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             ItemSeeder::class,
             AdminSeeder::class,
             TestimonialSeeder::class,
+            FeatureSeeder::class,
         ]);
 
         User::factory()->create([

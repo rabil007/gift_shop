@@ -53,6 +53,15 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
         Route::delete('/{item}', [App\Http\Controllers\Admin\ItemController::class, 'destroy'])->name('destroy');
     });
 
+    Route::prefix('features')->name('features.')->group(function () {
+        Route::get('/', [App\Http\Controllers\Admin\FeatureController::class, 'index'])->name('index');
+        Route::get('/create', [App\Http\Controllers\Admin\FeatureController::class, 'create'])->name('create');
+        Route::post('/', [App\Http\Controllers\Admin\FeatureController::class, 'store'])->name('store');
+        Route::get('/{feature}/edit', [App\Http\Controllers\Admin\FeatureController::class, 'edit'])->name('edit');
+        Route::put('/{feature}', [App\Http\Controllers\Admin\FeatureController::class, 'update'])->name('update');
+        Route::delete('/{feature}', [App\Http\Controllers\Admin\FeatureController::class, 'destroy'])->name('destroy');
+    });
+
     Route::prefix('testimonials')->name('testimonials.')->group(function () {
         Route::get('/', [App\Http\Controllers\TestimonialController::class, 'index'])->name('index');
         Route::get('/create', [App\Http\Controllers\TestimonialController::class, 'create'])->name('create');
