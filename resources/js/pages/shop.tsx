@@ -1,15 +1,24 @@
 import { useState, useMemo } from 'react';
 import { Link, usePage } from '@inertiajs/react';
-import { ShoppingCart, Search, ArrowRight, User } from 'lucide-react';
+import { ShoppingCart, Search, User } from 'lucide-react';
 import { Logo } from '@/components/Logo';
-import { featuredItems } from '@/components/landing/data';
+
+interface Item {
+    id: number;
+    name: string;
+    price_formatted: string;
+    image: string | null;
+    tag: string | null;
+    category: { id: number; name: string; slug: string } | null;
+}
 
 export default function Shop() {
-    const { auth, name, logo, categories } = usePage().props as {
+    const { auth, name, logo, categories, items = [] } = usePage().props as {
         auth: { user: any | null };
         name: string;
         logo: string | null;
         categories: { id: number; name: string; slug: string }[];
+        items: Item[];
     };
     const [searchQuery, setSearchQuery] = useState('');
     const [activeCategory, setActiveCategory] = useState<string>('All');
@@ -17,12 +26,12 @@ export default function Shop() {
     const categoryNames = useMemo(() => ['All', ...categories.map((c) => c.name)], [categories]);
 
     const filteredItems = useMemo(() => {
-        return featuredItems.filter(item => {
-            const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase());
-            const matchesCategory = activeCategory === 'All' || item.category === activeCategory;
+        return items.filter((item: Item) => {
+            const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase());
+            const matchesCategory = activeCategory === 'All' || item.category?.name === activeCategory;
             return matchesSearch && matchesCategory;
         });
-    }, [searchQuery, activeCategory]);
+    }, [items, searchQuery, activeCategory]);
 
     return (
         <div className="landing-theme min-h-screen overflow-x-hidden bg-[var(--landing-bg)] font-sans text-[var(--landing-text)] selection:bg-[var(--landing-accent)] selection:text-white flex flex-col">
@@ -122,21 +131,21 @@ export default function Shop() {
                                 <Link href={`/item/${item.id}`} className="block">
                                     <div className="relative aspect-[4/5] rounded-3xl overflow-hidden bg-white/50 backdrop-blur-md border border-white shadow-[0_4px_20px_rgb(0,0,0,0.04)] m-1 mb-4 p-2 transition-all duration-300 group-hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] group-hover:-translate-y-1">
                                         <div className="absolute inset-2 rounded-2xl overflow-hidden bg-neutral-100">
-                                            {'Tag' in item && item.Tag && (
+                                            {item.tag && (
                                                 <div className="absolute top-3 left-3 z-10 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase text-neutral-800 shadow-sm border border-black/5">
-                                                    {item.Tag}
+                                                    {item.tag}
                                                 </div>
                                             )}
                                             <img
-                                                src={item.image}
-                                                alt={item.title}
+                                                src={item.image ?? ''}
+                                                alt={item.name}
                                                 className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105 mix-blend-multiply"
                                             />
                                         </div>
                                     </div>
                                     <div className="px-3 flex flex-col items-center text-center">
-                                        <h4 className="text-lg font-bold text-neutral-900 leading-tight mb-1">{item.title}</h4>
-                                        <p className="text-sm font-bold text-[var(--landing-accent)]">{item.price}</p>
+                                        <h4 className="text-lg font-bold text-neutral-900 leading-tight mb-1">{item.name}</h4>
+                                        <p className="text-sm font-bold text-[var(--landing-accent)]">{item.price_formatted}</p>
                                     </div>
                                 </Link>
                             </div>

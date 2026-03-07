@@ -1,14 +1,15 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
-Route::get('/', fn () => Inertia::render('landing'))->name('home');
-Route::get('/shop', fn () => Inertia::render('shop'))->name('shop');
+Route::get('/', [HomeController::class, 'landing'])->name('home');
+Route::get('/shop', [HomeController::class, 'shop'])->name('shop');
 Route::get('/cart', fn () => Inertia::render('cart'))->name('cart');
 Route::get('/profile', fn () => Inertia::render('profile'))->name('profile');
-Route::get('/item/{id}', fn () => Inertia::render('item'))->name('item.show');
+Route::get('/item/{id}', [HomeController::class, 'item'])->name('item.show');
 
 // Auth routes (placeholders for auth views)
 Route::get('/login', fn () => Inertia::render('auth/login'))->name('login');
@@ -40,5 +41,14 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
         Route::get('/{category}/edit', [App\Http\Controllers\Admin\CategoryController::class, 'edit'])->name('edit');
         Route::put('/{category}', [App\Http\Controllers\Admin\CategoryController::class, 'update'])->name('update');
         Route::delete('/{category}', [App\Http\Controllers\Admin\CategoryController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::prefix('items')->name('items.')->group(function () {
+        Route::get('/', [App\Http\Controllers\Admin\ItemController::class, 'index'])->name('index');
+        Route::get('/create', [App\Http\Controllers\Admin\ItemController::class, 'create'])->name('create');
+        Route::post('/', [App\Http\Controllers\Admin\ItemController::class, 'store'])->name('store');
+        Route::get('/{item}/edit', [App\Http\Controllers\Admin\ItemController::class, 'edit'])->name('edit');
+        Route::put('/{item}', [App\Http\Controllers\Admin\ItemController::class, 'update'])->name('update');
+        Route::delete('/{item}', [App\Http\Controllers\Admin\ItemController::class, 'destroy'])->name('destroy');
     });
 });

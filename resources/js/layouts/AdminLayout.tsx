@@ -1,15 +1,22 @@
 import { Link, usePage } from '@inertiajs/react';
-import { LayoutDashboard, Users, ShoppingBag, Settings, LogOut, FolderTree } from 'lucide-react';
+import { LayoutDashboard, Users, ShoppingBag, Settings, LogOut, FolderTree, Package } from 'lucide-react';
+
+const navLinkClass = (active: boolean) =>
+    `flex items-center gap-3 px-3 py-2 rounded-md font-medium transition-all group ${active ? 'bg-teal-500/10 text-teal-400' : 'text-slate-400 hover:text-slate-50 hover:bg-slate-800/50'}`;
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-    const { auth, name, logo } = usePage().props as { auth: { user: any | null }, name: string, logo: string | null };
-    
-    // We'll use a clean, sophisticated dark/light look for the admin panel, distinct from the customer-facing gold/cream theme.
-    
+    const page = usePage();
+    const { auth, name, logo } = page.props as { auth: { user: any | null }, name: string, logo: string | null };
+    const path = typeof page.url === 'string' ? new URL(page.url, 'http://localhost').pathname : (typeof window !== 'undefined' ? window.location.pathname : '');
+
+    const isActive = (href: string) => {
+        if (href === '/admin') return path === '/admin' || path === '/admin/';
+        return path.startsWith(href);
+    };
+
     return (
         <div className="min-h-screen bg-slate-50/50 flex font-sans text-slate-900 selection:bg-teal-600 selection:text-white">
             
-            {/* Sidebar */}
             <aside className="w-64 bg-slate-900 text-slate-300 flex flex-col hidden md:flex shrink-0 border-r border-slate-800">
                 <div className="h-16 flex items-center px-6 border-b border-slate-800">
                     <span className="text-xl font-bold tracking-tight text-white flex items-center gap-2">
@@ -27,27 +34,31 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 <div className="px-4 py-4">
                     <p className="px-2 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Main Menu</p>
                     <nav className="flex-1 space-y-1">
-                        <Link href="/admin" className="flex items-center gap-3 px-3 py-2 rounded-md bg-teal-500/10 text-teal-400 font-medium transition-all group">
+                        <Link href="/admin" className={navLinkClass(isActive('/admin'))}>
                             <LayoutDashboard className="h-5 w-5 stroke-[1.5] group-hover:scale-110 transition-transform" />
                             Dashboard
                         </Link>
-                        <Link href="/admin/orders" className="flex items-center gap-3 px-3 py-2 rounded-md text-slate-400 hover:text-slate-50 hover:bg-slate-800/50 font-medium transition-all group">
+                        <Link href="/admin/orders" className={navLinkClass(isActive('/admin/orders'))}>
                             <ShoppingBag className="h-5 w-5 stroke-[1.5] group-hover:scale-110 transition-transform" />
                             Orders
                         </Link>
-                        <Link href="/admin/customers" className="flex items-center gap-3 px-3 py-2 rounded-md text-slate-400 hover:text-slate-50 hover:bg-slate-800/50 font-medium transition-all group">
+                        <Link href="/admin/customers" className={navLinkClass(isActive('/admin/customers'))}>
                             <Users className="h-5 w-5 stroke-[1.5] group-hover:scale-110 transition-transform" />
                             Customers
                         </Link>
-                        <Link href="/admin/categories" className="flex items-center gap-3 px-3 py-2 rounded-md text-slate-400 hover:text-slate-50 hover:bg-slate-800/50 font-medium transition-all group">
+                        <Link href="/admin/categories" className={navLinkClass(isActive('/admin/categories'))}>
                             <FolderTree className="h-5 w-5 stroke-[1.5] group-hover:scale-110 transition-transform" />
                             Categories
+                        </Link>
+                        <Link href="/admin/items" className={navLinkClass(isActive('/admin/items'))}>
+                            <Package className="h-5 w-5 stroke-[1.5] group-hover:scale-110 transition-transform" />
+                            Items
                         </Link>
                     </nav>
 
                     <p className="px-2 text-xs font-semibold text-slate-500 uppercase tracking-wider mt-8 mb-2">System</p>
                     <nav className="space-y-1">
-                        <Link href="/admin/settings" className="flex items-center gap-3 px-3 py-2 rounded-md text-slate-400 hover:text-slate-50 hover:bg-slate-800/50 font-medium transition-all group">
+                        <Link href="/admin/settings" className={navLinkClass(isActive('/admin/settings'))}>
                             <Settings className="h-5 w-5 stroke-[1.5] group-hover:scale-110 transition-transform" />
                             Settings
                         </Link>
