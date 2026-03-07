@@ -1,6 +1,5 @@
 export { Carousel } from './Carousel';
 export { Sparkles, WhatsAppIcon, InstagramIcon } from './icons';
-export { testimonials } from './data';
 export { HeroSection } from './HeroSection';
 export { CollectionsSection } from './CollectionsSection';
 export { FeaturedSection } from './FeaturedSection';

@@ -21,6 +21,13 @@ class HomeController extends Controller
             ->get()
             ->map(fn ($item) => $this->formatItem($item));
 
+        $heroItems = Item::with('category:id,name,slug')
+            ->where('is_hero', true)
+            ->orderBy('sort_order')
+            ->orderBy('name')
+            ->get()
+            ->map(fn ($item) => $this->formatItem($item));
+
         $testimonials = Testimonial::where('is_active', true)
             ->orderBy('sort_order')
             ->orderByDesc('created_at')
@@ -32,6 +39,7 @@ class HomeController extends Controller
 
         return Inertia::render('landing', [
             'featuredItems' => $featuredItems,
+            'heroItems' => $heroItems,
             'testimonials' => $testimonials,
             'features' => $features,
         ]);

@@ -14,10 +14,12 @@ class Item extends Model
         'image',
         'tag',
         'sort_order',
+        'is_hero',
     ];
 
     protected $casts = [
         'price' => 'decimal:2',
+        'is_hero' => 'boolean',
     ];
 
     public function category()

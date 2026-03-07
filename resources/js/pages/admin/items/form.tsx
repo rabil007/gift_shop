@@ -16,6 +16,7 @@ interface ItemFormData {
     price: string;
     image: string | null;
     tag: string | null;
+    is_hero: boolean;
     sort_order: number;
 }
 
@@ -36,6 +37,7 @@ export default function ItemForm({
         price: item?.price ?? '',
         image: null as File | null,
         tag: item?.tag ?? '',
+        is_hero: item?.is_hero ?? false,
         sort_order: item?.sort_order ?? 0,
     });
 
@@ -155,7 +157,7 @@ export default function ItemForm({
                         <label htmlFor="tag" className="block text-sm font-medium text-slate-700 mb-1.5">Tag (optional)</label>
                         <select
                             id="tag"
-                            value={data.tag}
+                            value={data.tag || ''}
                             onChange={(e) => setData('tag', e.target.value || null)}
                             className="block w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-slate-900 shadow-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/20 sm:text-sm max-w-40"
                         >
@@ -165,6 +167,23 @@ export default function ItemForm({
                         </select>
                         {errors.tag && <p className="mt-1 text-sm text-red-600">{errors.tag}</p>}
                     </div>
+
+                    <div className="flex items-center mt-6">
+                        <label className="flex items-center gap-3 select-none touch-target" htmlFor="is_hero">
+                            <input
+                                type="checkbox"
+                                id="is_hero"
+                                checked={data.is_hero}
+                                onChange={e => setData('is_hero', e.target.checked)}
+                                className="h-5 w-5 rounded border-slate-300 text-teal-600 focus:ring-teal-600 transition duration-150 ease-in-out cursor-pointer"
+                            />
+                            <div>
+                                <span className="block text-sm font-medium text-slate-900 leading-none">Hero Slide</span>
+                                <span className="block text-xs text-slate-500 mt-1">Show this item in the landing page hero slider</span>
+                            </div>
+                        </label>
+                    </div>
+
                     <div>
                         <label htmlFor="sort_order" className="block text-sm font-medium text-slate-700 mb-1.5">Sort order</label>
                         <input

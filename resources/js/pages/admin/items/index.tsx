@@ -15,6 +15,7 @@ interface Item {
     price: string;
     image: string | null;
     tag: string | null;
+    is_hero: boolean;
     sort_order: number;
     category: Category | null;
 }
@@ -61,6 +62,7 @@ export default function ItemsIndex({ items }: { items: Item[] }) {
                                 <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Category</th>
                                 <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Price</th>
                                 <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Tag</th>
+                                <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Is Hero</th>
                                 <th className="px-5 py-3 text-right text-xs font-semibold text-slate-500 uppercase tracking-wider">Actions</th>
                             </tr>
                         </thead>
@@ -82,6 +84,13 @@ export default function ItemsIndex({ items }: { items: Item[] }) {
                                     <td className="px-5 py-3 text-sm text-slate-500">{item.category?.name ?? '—'}</td>
                                     <td className="px-5 py-3 text-sm font-medium text-slate-900">AED {item.price}</td>
                                     <td className="px-5 py-3 text-sm text-slate-500">{item.tag ?? '—'}</td>
+                                    <td className="px-5 py-3 text-sm text-slate-500">
+                                        {item.is_hero ? (
+                                            <span className="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600/20">
+                                                Hero
+                                            </span>
+                                        ) : '—'}
+                                    </td>
                                     <td className="px-5 py-3 text-right">
                                         <div className="flex items-center justify-end gap-2">
                                             <Link

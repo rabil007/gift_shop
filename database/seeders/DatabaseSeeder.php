@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             CategorySeeder::class,
             ItemSeeder::class,
+            HeroItemSeeder::class,
             AdminSeeder::class,
             TestimonialSeeder::class,
             FeatureSeeder::class,

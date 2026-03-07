@@ -28,6 +28,7 @@ class ItemController extends Controller
                 'price' => $item->price,
                 'image' => $this->imageUrl($item),
                 'tag' => $item->tag,
+                'is_hero' => $item->is_hero,
                 'sort_order' => $item->sort_order,
                 'category' => $item->category ? ['id' => $item->category->id, 'name' => $item->category->name, 'slug' => $item->category->slug] : null,
             ]),
@@ -53,9 +54,11 @@ class ItemController extends Controller
             'price' => ['required', 'numeric', 'min:0'],
             'image' => ['nullable', 'image', 'max:2048'],
             'tag' => ['nullable', 'string', 'max:50'],
+            'is_hero' => ['boolean'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
         ]);
 
+        $validated['is_hero'] = $validated['is_hero'] ?? false;
         $validated['sort_order'] = $validated['sort_order'] ?? 0;
         if ($request->hasFile('image')) {
             $validated['image'] = $request->file('image')->store('items', 'public');
@@ -81,6 +84,7 @@ class ItemController extends Controller
                 'price' => $item->price,
                 'image' => $this->imageUrl($item),
                 'tag' => $item->tag,
+                'is_hero' => $item->is_hero,
                 'sort_order' => $item->sort_order,
             ],
             'categories' => $categories,
@@ -96,9 +100,11 @@ class ItemController extends Controller
             'price' => ['required', 'numeric', 'min:0'],
             'image' => ['nullable', 'image', 'max:2048'],
             'tag' => ['nullable', 'string', 'max:50'],
+            'is_hero' => ['boolean'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
         ]);
 
+        $validated['is_hero'] = $validated['is_hero'] ?? false;
         $validated['sort_order'] = $validated['sort_order'] ?? 0;
         if ($request->hasFile('image')) {
             if ($item->image && Storage::disk('public')->exists($item->image)) {

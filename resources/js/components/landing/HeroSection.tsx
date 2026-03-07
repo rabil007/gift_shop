@@ -2,15 +2,17 @@ import { useEffect, useState } from 'react';
 import { Link } from '@inertiajs/react';
 import { Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { heroImages } from './data';
-
 const SLIDE_INTERVAL_MS = 4000;
 const SLIDE_DURATION_MS = 600;
 
-export function HeroSection() {
+export function HeroSection({ heroItems = [] }: { heroItems?: any[] }) {
+    const imagesToUse = heroItems.map(item => ({ src: item.image, alt: item.name, featuredTitle: item.name }));
+
     const [index, setIndex] = useState(0);
     const [touchStart, setTouchStart] = useState<number | null>(null);
     const [touchEnd, setTouchEnd] = useState<number | null>(null);
+
+    if (imagesToUse.length === 0) return null;
 
     const onTouchStart = (e: React.TouchEvent) => {
         setTouchEnd(null);
@@ -24,16 +26,16 @@ export function HeroSection() {
     const onTouchEnd = () => {
         if (!touchStart || !touchEnd) return;
         const distance = touchStart - touchEnd;
-        if (distance > 50) setIndex((i) => (i + 1) % heroImages.length);
-        if (distance < -50) setIndex((i) => (i - 1 + heroImages.length) % heroImages.length);
+        if (distance > 50) setIndex((i) => (i + 1) % imagesToUse.length);
+        if (distance < -50) setIndex((i) => (i - 1 + imagesToUse.length) % imagesToUse.length);
     };
 
     useEffect(() => {
         const id = setInterval(() => {
-            setIndex((i) => (i + 1) % heroImages.length);
+            setIndex((i) => (i + 1) % imagesToUse.length);
         }, SLIDE_INTERVAL_MS);
         return () => clearInterval(id);
-    }, []);
+    }, [imagesToUse.length]);
 
     return (
         <section className="px-4 sm:px-6 mx-auto max-w-7xl">
@@ -78,7 +80,7 @@ export function HeroSection() {
                                 transition: `transform ${SLIDE_DURATION_MS}ms ease-in-out`,
                             }}
                         >
-                            {heroImages.map((img) => (
+                            {imagesToUse.map((img) => (
                                 <img
                                     key={img.src}
                                     src={img.src}
@@ -94,7 +96,7 @@ export function HeroSection() {
                         </div>
                         <div className="flex flex-col min-w-0 flex-1">
                             <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-neutral-400 mb-0.5 sm:mb-1">Featured</span>
-                            <span key={index} className="text-xs sm:text-sm font-bold text-neutral-900 leading-tight truncate animate-in fade-in duration-300">{heroImages[index].featuredTitle}</span>
+                            <span key={index} className="text-xs sm:text-sm font-bold text-neutral-900 leading-tight truncate animate-in fade-in duration-300">{imagesToUse[index].featuredTitle}</span>
                         </div>
                     </div>
                 </div>
