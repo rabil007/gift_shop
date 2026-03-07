@@ -7,7 +7,7 @@ interface LogoProps {
     iconClassName?: string;
 }
 
-export function Logo({ logo, name, className = 'h-5 w-5 shrink-0', iconClassName = 'text-neutral-900' }: LogoProps) {
+export function Logo({ logo, name, className = 'h-10 w-auto shrink-0 sm:h-11', iconClassName = 'text-neutral-900' }: LogoProps) {
     if (logo) {
         return (
             <img

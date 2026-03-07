@@ -37,10 +37,12 @@ export default function Login() {
             
             <div className="sm:mx-auto sm:w-full sm:max-w-md relative z-10">
                 <Link href="/" className="flex items-center justify-center gap-2 mb-6 transition-transform hover:scale-105 active:scale-95 touch-target">
-                    <Logo logo={logo} name={name} className="h-8 w-8" iconClassName="text-[var(--landing-text)]" />
-                    <span className="text-3xl font-bold tracking-tight text-[var(--landing-text)]">
-                        {name}
-                    </span>
+                    <Logo logo={logo} name={name} className="h-12 w-auto shrink-0 sm:h-14" iconClassName="text-[var(--landing-text)]" />
+                    {!logo && (
+                        <span className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--landing-text)]">
+                            {name}
+                        </span>
+                    )}
                 </Link>
                 <h2 className="mt-2 text-center text-4xl sm:text-5xl font-serif text-[var(--landing-accent)] italic tracking-tight mb-2">
                     Welcome back

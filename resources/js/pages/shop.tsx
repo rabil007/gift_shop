@@ -55,9 +55,11 @@ export default function Shop() {
             <header className="relative z-50 flex h-14 sm:h-20 items-center justify-between px-4 sm:px-6 lg:px-12 border-b border-black/5 bg-white/30 backdrop-blur-md">
                 <Link href="/" className="flex items-center gap-2 transition-opacity active:opacity-80 touch-target py-2 -my-2 shadow-[0_4px_20px_rgb(0,0,0,0.03)] rounded-full px-3 bg-white/60">
                     <Logo logo={logo} name={name} iconClassName="text-neutral-900" />
-                    <span className="text-lg sm:text-xl font-bold tracking-tight text-neutral-900">
-                        {name}
-                    </span>
+                    {!logo && (
+                        <span className="text-lg sm:text-xl font-bold tracking-tight text-neutral-900">
+                            {name}
+                        </span>
+                    )}
                 </Link>
                 <div className="flex items-center gap-4 sm:gap-6">
                     <Link href="/shop" className="text-sm font-bold text-neutral-900 hover:text-[var(--landing-accent)] transition-colors hidden sm:block">Shop</Link>
@@ -176,9 +178,11 @@ export default function Shop() {
                     <div>
                         <Link href="/" className="flex items-center justify-center md:justify-start gap-2 mb-2 touch-target py-2">
                             <Logo logo={logo} name={name} iconClassName="text-neutral-900" />
-                            <span className="text-lg sm:text-xl font-bold tracking-tight text-neutral-900">
-                                {name}
-                            </span>
+                            {!logo && (
+                                <span className="text-lg sm:text-xl font-bold tracking-tight text-neutral-900">
+                                    {name}
+                                </span>
+                            )}
                         </Link>
                         <p className="text-sm text-neutral-500 font-medium">© {new Date().getFullYear()} {name}.</p>
                     </div>
