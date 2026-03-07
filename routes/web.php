@@ -26,3 +26,8 @@ Route::post('/enquiry', function () {
     }
     return back()->with('success', 'Thank you. We will get back to you soon.');
 })->name('enquiry.store');
+
+// Admin Routes
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
+});
