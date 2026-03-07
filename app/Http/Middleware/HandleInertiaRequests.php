@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\Setting;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -38,6 +39,9 @@ class HandleInertiaRequests extends Middleware
     {
         $logoPath = \Illuminate\Support\Facades\Schema::hasTable('settings') ? Setting::get('logo') : null;
         $logoUrl = $logoPath ? \Illuminate\Support\Facades\Storage::disk('public')->url($logoPath) : null;
+        $categories = \Illuminate\Support\Facades\Schema::hasTable('categories')
+            ? Category::orderBy('sort_order')->orderBy('name')->get(['id', 'name', 'slug', 'description', 'sort_order'])
+            : [];
 
         return [
             ...parent::share($request),
@@ -45,6 +49,7 @@ class HandleInertiaRequests extends Middleware
                 ? (Setting::get('app_name') ?? config('app.name'))
                 : config('app.name'),
             'logo' => $logoUrl,
+            'categories' => $categories,
             'auth' => [
                 'user' => $request->user(),
             ],

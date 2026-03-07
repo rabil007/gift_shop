@@ -1,15 +1,21 @@
 import { Cake, Gift, Heart, Image } from 'lucide-react';
 import { ChevronRight } from 'lucide-react';
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 
-const categories = [
-    { title: 'Hamper', description: 'Curated gift hampers', icon: Gift, href: '/shop' },
-    { title: 'Bouquet', description: 'Fresh floral arrangements', icon: Heart, href: '/shop' },
-    { title: 'Photo Gift', description: 'Personalized photo gifts', icon: Image, href: '/shop' },
-    { title: 'Cake', description: 'Premium cakes & patisserie', icon: Cake, href: '/shop' },
-];
+const slugToIcon: Record<string, typeof Gift> = {
+    hampers: Gift,
+    flowers: Heart,
+    cakes: Cake,
+    personalized: Image,
+};
 
 export function CollectionsSection() {
+    const { categories } = usePage().props as {
+        categories: { id: number; name: string; slug: string; description: string | null }[];
+    };
+
+    if (!categories?.length) return null;
+
     return (
         <section className="mt-20 sm:mt-24 md:mt-32 px-4 sm:px-6 max-w-6xl mx-auto">
             <div className="flex items-center justify-between mb-4 sm:mb-6 px-2 sm:px-4">
@@ -18,11 +24,11 @@ export function CollectionsSection() {
             </div>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                 {categories.map((cat) => {
-                    const Icon = cat.icon;
+                    const Icon = slugToIcon[cat.slug] ?? Gift;
                     return (
                         <Link
-                            key={cat.title}
-                            href={cat.href}
+                            key={cat.id}
+                            href="/shop"
                             className="group rounded-2xl bg-white/70 backdrop-blur-xl border border-white shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all p-4 flex items-center justify-between hover:scale-[1.02] active:scale-[0.99] duration-300 touch-target min-h-[56px]"
                         >
                             <div className="flex items-center gap-4">
@@ -30,8 +36,8 @@ export function CollectionsSection() {
                                     <Icon className="h-5 w-5 text-[var(--landing-accent)]" />
                                 </div>
                                 <div>
-                                    <h3 className="text-sm font-bold text-neutral-900">{cat.title}</h3>
-                                    <p className="text-xs text-neutral-500 font-medium mt-0.5">{cat.description}</p>
+                                    <h3 className="text-sm font-bold text-neutral-900">{cat.name}</h3>
+                                    <p className="text-xs text-neutral-500 font-medium mt-0.5">{cat.description || `Browse ${cat.name}`}</p>
                                 </div>
                             </div>
                             <ChevronRight className="h-4 w-4 text-neutral-400 group-hover:text-[var(--landing-accent)] group-hover:translate-x-1 transition-all" />

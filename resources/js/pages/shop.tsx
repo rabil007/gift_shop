@@ -4,12 +4,17 @@ import { ShoppingCart, Search, ArrowRight, User } from 'lucide-react';
 import { Logo } from '@/components/Logo';
 import { featuredItems } from '@/components/landing/data';
 
-const categories = ['All', 'Hampers', 'Flowers', 'Cakes', 'Personalized'];
-
 export default function Shop() {
-    const { auth, name, logo } = usePage().props as { auth: { user: any | null }, name: string, logo: string | null };
+    const { auth, name, logo, categories } = usePage().props as {
+        auth: { user: any | null };
+        name: string;
+        logo: string | null;
+        categories: { id: number; name: string; slug: string }[];
+    };
     const [searchQuery, setSearchQuery] = useState('');
-    const [activeCategory, setActiveCategory] = useState('All');
+    const [activeCategory, setActiveCategory] = useState<string>('All');
+
+    const categoryNames = useMemo(() => ['All', ...categories.map((c) => c.name)], [categories]);
 
     const filteredItems = useMemo(() => {
         return featuredItems.filter(item => {
@@ -79,7 +84,7 @@ export default function Shop() {
 
                 <div className="flex flex-col lg:flex-row gap-6 items-start lg:items-center justify-between mb-10 sticky top-14 sm:top-20 z-40 bg-[var(--landing-bg)]/80 backdrop-blur-xl py-4 sm:py-6 -mx-4 sm:mx-0">
                     <div className="flex gap-2 w-full flex-1 min-w-0 overflow-x-auto px-4 sm:px-0 pb-4 pt-2 -mt-2 scrollbar-none">
-                        {categories.map(category => (
+                        {categoryNames.map(category => (
                             <button
                                 key={category}
                                 onClick={() => setActiveCategory(category)}
