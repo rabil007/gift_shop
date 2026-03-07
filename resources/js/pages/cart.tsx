@@ -81,7 +81,7 @@ export default function Cart() {
                             cart.items.map((cartItem: any) => (
                                 <div key={cartItem.id} className="flex flex-row items-center gap-4 sm:gap-6 p-4 sm:p-6 rounded-2xl sm:rounded-[2rem] bg-white/70 backdrop-blur-xl border border-white shadow-[0_8px_40px_rgb(0,0,0,0.04)] relative transition-shadow">
                                     <div className="h-20 w-20 sm:h-32 sm:w-32 shrink-0 bg-neutral-100 rounded-xl overflow-hidden shadow-inner border border-black/5">
-                                        <img src={cartItem.item.image ? (cartItem.item.image.startsWith('http') ? cartItem.item.image : `/storage/${cartItem.item.image}`) : "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=600&auto=format&fit=crop"} alt={cartItem.item.name} className="h-full w-full object-cover mix-blend-multiply" />
+                                        <img src={cartItem.item.image ? (cartItem.item.image.startsWith('http') ? cartItem.item.image : `/storage/${cartItem.item.image}`) : ""} alt={cartItem.item.name} className="h-full w-full object-cover mix-blend-multiply" />
                                     </div>
                                     <div className="flex-1 min-w-0 w-full">
                                         <h3 className="text-base sm:text-xl font-bold text-neutral-900 truncate">{cartItem.item.name}</h3>
