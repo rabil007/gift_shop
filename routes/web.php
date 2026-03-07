@@ -10,6 +10,10 @@ Route::get('/cart', fn () => Inertia::render('cart'))->name('cart');
 Route::get('/profile', fn () => Inertia::render('profile'))->name('profile');
 Route::get('/item/{id}', fn () => Inertia::render('item'))->name('item.show');
 
+// Auth routes (placeholders for auth views)
+Route::get('/login', fn () => Inertia::render('auth/login'))->name('login');
+Route::get('/register', fn () => Inertia::render('auth/register'))->name('register');
+
 Route::post('/enquiry', function () {
     $v = Validator::make(request()->all(), [
         'name' => ['required', 'string', 'max:255'],
