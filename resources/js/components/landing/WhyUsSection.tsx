@@ -1,3 +1,4 @@
+import { usePage } from '@inertiajs/react';
 import { Clock, Truck, ShieldCheck } from 'lucide-react';
 import { Sparkles } from './icons';
 
@@ -9,12 +10,13 @@ const whyUs = [
 ];
 
 export function WhyUsSection() {
+    const { name } = usePage().props as { name: string };
     return (
         <section className="mt-20 sm:mt-24 md:mt-32 px-4 sm:px-6 max-w-6xl mx-auto">
             <div className="mb-8 sm:mb-10 px-2 sm:px-4">
                 <div className="flex items-center gap-4 mb-2">
                     <div className="h-px w-6 sm:w-8 bg-[var(--landing-accent)]" />
-                    <span className="text-xs font-bold tracking-[0.2em] uppercase text-[var(--landing-accent)]">Why AuraGifts</span>
+                    <span className="text-xs font-bold tracking-[0.2em] uppercase text-[var(--landing-accent)]">Why {name}</span>
                 </div>
                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-neutral-900">Why Choose Us</h2>
                 <p className="mt-2 text-sm text-neutral-500 font-medium max-w-xl">We redefine the art of gifting through seamless service and unwavering quality.</p>

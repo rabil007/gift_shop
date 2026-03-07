@@ -1,8 +1,9 @@
 import { useState, useRef } from 'react';
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import { Gift, ShoppingCart, ArrowLeft, Package, User as UserIcon, LogOut, MapPin, Phone, Mail, Camera } from 'lucide-react';
 
 export default function Profile() {
+    const { name } = usePage().props as { name: string };
     const [isEditing, setIsEditing] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [activeTab, setActiveTab] = useState<'account' | 'addresses'>('account');
@@ -40,7 +41,7 @@ export default function Profile() {
                 <Link href="/" className="flex items-center gap-2 transition-opacity active:opacity-80 touch-target py-2 -my-2 shadow-[0_4px_20px_rgb(0,0,0,0.03)] rounded-full px-3 bg-white/60">
                     <Gift className="h-5 w-5 text-neutral-900 shrink-0" />
                     <span className="text-lg sm:text-xl font-bold tracking-tight text-neutral-900">
-                        Aura<span className="font-medium text-neutral-500">Gifts</span>
+                        {name}
                     </span>
                 </Link>
                 <div className="flex items-center gap-2 sm:gap-4">
@@ -274,10 +275,10 @@ export default function Profile() {
                         <Link href="/" className="flex items-center justify-center md:justify-start gap-2 mb-2 touch-target py-2">
                             <Gift className="h-5 w-5 text-neutral-900 shrink-0" />
                             <span className="text-lg sm:text-xl font-bold tracking-tight text-neutral-900">
-                                Aura<span className="font-medium text-neutral-500">Gifts</span>
+                                {name}
                             </span>
                         </Link>
-                        <p className="text-sm text-neutral-500 font-medium">© {new Date().getFullYear()} AuraGifts Technologies.</p>
+                        <p className="text-sm text-neutral-500 font-medium">© {new Date().getFullYear()} {name}.</p>
                     </div>
                     <div className="flex gap-6">
                         <a href="#" className="text-sm font-medium text-neutral-500 hover:text-neutral-900 transition-colors touch-target py-2 min-h-[44px] flex items-center">Privacy</a>

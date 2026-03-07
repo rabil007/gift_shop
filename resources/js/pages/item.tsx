@@ -5,7 +5,7 @@ import { Carousel } from '@/components/landing/Carousel';
 import { featuredItems } from '@/components/landing/data';
 
 export default function ItemDetail() {
-    const { auth } = usePage().props as { auth: { user: any | null } };
+    const { auth, name } = usePage().props as { auth: { user: any | null }, name: string };
     const [mainImage, setMainImage] = useState("https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=1200&auto=format&fit=crop");
     const [quantity, setQuantity] = useState(1);
     const [added, setAdded] = useState(false);
@@ -43,7 +43,7 @@ export default function ItemDetail() {
                 <Link href="/" className="flex items-center gap-2 transition-opacity active:opacity-80 touch-target py-2 -my-2 shadow-[0_4px_20px_rgb(0,0,0,0.03)] rounded-full px-3 bg-white/60">
                     <Gift className="h-5 w-5 text-neutral-900 shrink-0" />
                     <span className="text-lg sm:text-xl font-bold tracking-tight text-neutral-900">
-                        Aura<span className="font-medium text-neutral-500">Gifts</span>
+                        {name}
                     </span>
                 </Link>
                 <div className="flex items-center gap-2 sm:gap-4">
@@ -219,10 +219,10 @@ export default function ItemDetail() {
                         <Link href="/" className="flex items-center justify-center md:justify-start gap-2 mb-2 touch-target py-2">
                             <Gift className="h-5 w-5 text-neutral-900 shrink-0" />
                             <span className="text-lg sm:text-xl font-bold tracking-tight text-neutral-900">
-                                Aura<span className="font-medium text-neutral-500">Gifts</span>
+                                {name}
                             </span>
                         </Link>
-                        <p className="text-sm text-neutral-500 font-medium">© {new Date().getFullYear()} AuraGifts Technologies.</p>
+                        <p className="text-sm text-neutral-500 font-medium">© {new Date().getFullYear()} {name}.</p>
                     </div>
                 </div>
             </footer>

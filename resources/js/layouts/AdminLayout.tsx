@@ -2,7 +2,7 @@ import { Link, usePage } from '@inertiajs/react';
 import { LayoutDashboard, Users, ShoppingBag, Settings, LogOut } from 'lucide-react';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-    const { auth } = usePage().props as { auth: { user: any | null } };
+    const { auth, name } = usePage().props as { auth: { user: any | null }, name: string };
     
     // We'll use a clean, sophisticated dark/light look for the admin panel, distinct from the customer-facing gold/cream theme.
     
@@ -16,7 +16,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                         <div className="w-6 h-6 rounded bg-teal-600 flex items-center justify-center">
                             <span className="text-xs font-black text-white">A</span>
                         </div>
-                        Aura<span className="font-medium text-slate-400">Admin</span>
+                        {name}<span className="font-medium text-slate-400"> Admin</span>
                     </span>
                 </div>
                 
@@ -69,7 +69,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                             <span className="text-sm font-black text-white">A</span>
                         </div>
                         <span className="text-lg font-bold tracking-tight text-slate-900">
-                            Aura<span className="font-medium text-slate-500">Admin</span>
+                            {name}<span className="font-medium text-slate-500"> Admin</span>
                         </span>
                     </div>
 

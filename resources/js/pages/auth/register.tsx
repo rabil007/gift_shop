@@ -1,8 +1,9 @@
-import { Link, useForm, Head } from '@inertiajs/react';
+import { Link, useForm, Head, usePage } from '@inertiajs/react';
 import { Gift, Mail, Lock, User, AlertCircle } from 'lucide-react';
 import { FormEventHandler } from 'react';
 
 export default function Register() {
+    const { name } = usePage().props as { name: string };
     const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
         email: '',
@@ -38,7 +39,7 @@ export default function Register() {
                 <Link href="/" className="flex items-center justify-center gap-2 mb-6 transition-transform hover:scale-105 active:scale-95 touch-target">
                     <Gift className="h-8 w-8 text-[var(--landing-text)]" />
                     <span className="text-3xl font-bold tracking-tight text-[var(--landing-text)]">
-                        Aura<span className="font-medium text-neutral-500">Gifts</span>
+                        {name}
                     </span>
                 </Link>
                 <h2 className="mt-2 text-center text-4xl sm:text-5xl font-serif text-[var(--landing-accent)] italic tracking-tight mb-2">
