@@ -28,7 +28,7 @@ Route::post('/enquiry', function () {
 })->name('enquiry.store');
 
 // Admin Routes
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
     Route::get('/settings', [App\Http\Controllers\Admin\SettingsController::class, 'index'])->name('settings');
     Route::match(['put', 'post'], '/settings', [App\Http\Controllers\Admin\SettingsController::class, 'update'])->name('settings.update');
