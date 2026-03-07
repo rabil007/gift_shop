@@ -42,6 +42,7 @@ class HandleInertiaRequests extends Middleware
         $categories = \Illuminate\Support\Facades\Schema::hasTable('categories')
             ? Category::orderBy('sort_order')->orderBy('name')->get(['id', 'name', 'slug', 'description', 'sort_order'])
             : [];
+        $quickLinks = self::sharedQuickLinks();
 
         return [
             ...parent::share($request),
@@ -50,12 +51,47 @@ class HandleInertiaRequests extends Middleware
                 : config('app.name'),
             'logo' => $logoUrl,
             'categories' => $categories,
+            'quickLinks' => $quickLinks,
             'auth' => [
                 'user' => $request->user(),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
             'flash' => [
                 'success' => $request->session()->get('success'),
+            ],
+        ];
+    }
+
+    private static function sharedQuickLinks(): array
+    {
+        if (!\Illuminate\Support\Facades\Schema::hasTable('settings')) {
+            return [
+                'whatsapp' => ['url' => 'https://wa.me/971501234567', 'label' => 'Chat with us'],
+                'instagram' => ['url' => 'https://instagram.com/auragifts', 'label' => 'Follow us'],
+                'phone' => ['number' => '+971 50 123 4567', 'label' => 'Call'],
+            ];
+        }
+        $raw = Setting::get('quick_links');
+        if (!$raw) {
+            return [
+                'whatsapp' => ['url' => 'https://wa.me/971501234567', 'label' => 'Chat with us'],
+                'instagram' => ['url' => 'https://instagram.com/auragifts', 'label' => 'Follow us'],
+                'phone' => ['number' => '+971 50 123 4567', 'label' => 'Call'],
+            ];
+        }
+        $decoded = json_decode($raw, true);
+        return [
+            'whatsapp' => [
+                'url' => $decoded['whatsapp']['url'] ?? 'https://wa.me/971501234567',
+                'label' => $decoded['whatsapp']['label'] ?? 'Chat with us',
+            ],
+            'instagram' => [
+                'url' => $decoded['instagram']['url'] ?? 'https://instagram.com/auragifts',
+                'label' => $decoded['instagram']['label'] ?? 'Follow us',
+            ],
+            'phone' => [
+                'number' => $decoded['phone']['number'] ?? '+971 50 123 4567',
+                'label' => $decoded['phone']['label'] ?? 'Call',
             ],
         ];
     }

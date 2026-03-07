@@ -1,13 +1,31 @@
 import { Head, useForm, usePage } from '@inertiajs/react';
 import AdminLayout from '@/layouts/AdminLayout';
-import { Save, Building2, Check, Image } from 'lucide-react';
+import { Save, Building2, Check, Image, Link2 } from 'lucide-react';
 
-export default function Settings({ appName, logoUrl }: { appName: string; logoUrl: string | null }) {
+type QuickLinks = {
+    whatsapp: { url: string; label: string };
+    instagram: { url: string; label: string };
+    phone: { number: string; label: string };
+};
+
+const defaultQuickLinks: QuickLinks = {
+    whatsapp: { url: 'https://wa.me/971501234567', label: 'Chat with us' },
+    instagram: { url: 'https://instagram.com/auragifts', label: 'Follow us' },
+    phone: { number: '+971 50 123 4567', label: 'Call' },
+};
+
+export default function Settings({ appName, logoUrl, quickLinks = defaultQuickLinks }: { appName: string; logoUrl: string | null; quickLinks?: QuickLinks }) {
     const { flash } = usePage().props as { flash?: { success?: string } };
     const { data, setData, post, processing, errors } = useForm({
         app_name: appName,
         logo: null as File | null,
         _method: 'put',
+        whatsapp_url: quickLinks.whatsapp.url,
+        whatsapp_label: quickLinks.whatsapp.label,
+        instagram_url: quickLinks.instagram.url,
+        instagram_label: quickLinks.instagram.label,
+        phone_number: quickLinks.phone.number,
+        phone_label: quickLinks.phone.label,
     });
 
     return (
@@ -84,6 +102,81 @@ export default function Settings({ appName, logoUrl }: { appName: string; logoUr
                                 />
                                 <p className="text-xs text-slate-500">PNG, JPG or GIF. Max 2MB. Shown in header and footer site-wide.</p>
                                 {errors.logo && <p className="text-sm text-red-600">{errors.logo}</p>}
+                            </div>
+                        </div>
+                    </div>
+                    <div className="border-t border-slate-100 pt-5">
+                        <h3 className="text-sm font-semibold text-slate-900 flex items-center gap-2 mb-4">
+                            <Link2 className="h-4 w-4 text-teal-600" />
+                            Quick links
+                        </h3>
+                        <p className="text-xs text-slate-500 mb-4">These appear in the enquiry section on the website (WhatsApp, Instagram, Call).</p>
+                        <div className="grid gap-4 sm:grid-cols-2">
+                            <div>
+                                <label htmlFor="whatsapp_url" className="block text-xs font-medium text-slate-600 mb-1">WhatsApp URL</label>
+                                <input
+                                    id="whatsapp_url"
+                                    type="url"
+                                    value={data.whatsapp_url}
+                                    onChange={(e) => setData('whatsapp_url', e.target.value)}
+                                    placeholder="https://wa.me/971501234567"
+                                    className="block w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-slate-900 shadow-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/20 sm:text-sm"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="whatsapp_label" className="block text-xs font-medium text-slate-600 mb-1">WhatsApp label</label>
+                                <input
+                                    id="whatsapp_label"
+                                    type="text"
+                                    value={data.whatsapp_label}
+                                    onChange={(e) => setData('whatsapp_label', e.target.value)}
+                                    placeholder="Chat with us"
+                                    className="block w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-slate-900 shadow-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/20 sm:text-sm"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="instagram_url" className="block text-xs font-medium text-slate-600 mb-1">Instagram URL</label>
+                                <input
+                                    id="instagram_url"
+                                    type="url"
+                                    value={data.instagram_url}
+                                    onChange={(e) => setData('instagram_url', e.target.value)}
+                                    placeholder="https://instagram.com/yourhandle"
+                                    className="block w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-slate-900 shadow-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/20 sm:text-sm"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="instagram_label" className="block text-xs font-medium text-slate-600 mb-1">Instagram label</label>
+                                <input
+                                    id="instagram_label"
+                                    type="text"
+                                    value={data.instagram_label}
+                                    onChange={(e) => setData('instagram_label', e.target.value)}
+                                    placeholder="Follow us"
+                                    className="block w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-slate-900 shadow-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/20 sm:text-sm"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="phone_number" className="block text-xs font-medium text-slate-600 mb-1">Phone number</label>
+                                <input
+                                    id="phone_number"
+                                    type="text"
+                                    value={data.phone_number}
+                                    onChange={(e) => setData('phone_number', e.target.value)}
+                                    placeholder="+971 50 123 4567"
+                                    className="block w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-slate-900 shadow-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/20 sm:text-sm"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="phone_label" className="block text-xs font-medium text-slate-600 mb-1">Phone label</label>
+                                <input
+                                    id="phone_label"
+                                    type="text"
+                                    value={data.phone_label}
+                                    onChange={(e) => setData('phone_label', e.target.value)}
+                                    placeholder="Call"
+                                    className="block w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-slate-900 shadow-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/20 sm:text-sm"
+                                />
                             </div>
                         </div>
                     </div>

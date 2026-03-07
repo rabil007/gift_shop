@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/input-error';
 import { cn } from '@/lib/utils';
+import { usePage } from '@inertiajs/react';
 import { WhatsAppIcon, InstagramIcon } from './icons';
 
 type EnquiryForm = {
@@ -19,7 +20,18 @@ type Props = {
     form: EnquiryForm;
 };
 
+const defaultQuickLinks = {
+    whatsapp: { url: 'https://wa.me/971501234567', label: 'Chat with us' },
+    instagram: { url: 'https://instagram.com/auragifts', label: 'Follow us' },
+    phone: { number: '+971 50 123 4567', label: 'Call' },
+};
+
 export function EnquirySection({ flashSuccess, form }: Props) {
+    const { quickLinks: q } = usePage().props as {
+        quickLinks?: { whatsapp: { url: string; label: string }; instagram: { url: string; label: string }; phone: { number: string; label: string } };
+    };
+    const quickLinks = q ?? defaultQuickLinks;
+
     return (
         <section className="mt-20 sm:mt-24 md:mt-32 px-4 sm:px-6 max-w-6xl mx-auto">
             <div className="rounded-2xl sm:rounded-[2.5rem] bg-white/60 backdrop-blur-3xl border border-white shadow-[0_8px_40px_rgb(0,0,0,0.04)] p-6 sm:p-10 md:p-16 relative overflow-hidden">
@@ -114,49 +126,55 @@ export function EnquirySection({ flashSuccess, form }: Props) {
                     <div className="lg:pl-4 border-t border-neutral-200/60 pt-8 sm:pt-10 lg:border-t-0 lg:pt-0 lg:border-l lg:border-l-neutral-200/60 lg:pl-16">
                         <p className="text-xs font-bold tracking-[0.2em] uppercase text-neutral-500 mb-4 sm:mb-6">Quick links</p>
                         <div className="flex flex-col gap-3 sm:gap-4">
-                            <a
-                                href="https://wa.me/971501234567"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-center gap-4 rounded-2xl bg-white/70 backdrop-blur-xl border border-white shadow-[0_4px_20px_rgb(0,0,0,0.03)] p-4 transition-all hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] active:scale-[0.99] group min-h-[56px] touch-target"
-                            >
-                                <div className="h-12 w-12 rounded-full bg-emerald-500/10 flex items-center justify-center shrink-0 group-hover:bg-emerald-500/20 transition-colors">
-                                    <WhatsAppIcon className="h-6 w-6 text-emerald-600" />
-                                </div>
-                                <div className="text-left">
-                                    <p className="font-bold text-neutral-900">WhatsApp</p>
-                                    <p className="text-sm text-neutral-500">Chat with us</p>
-                                </div>
-                                <ChevronRight className="h-5 w-5 text-neutral-400 group-hover:text-[var(--landing-accent)] ml-auto transition-colors" />
-                            </a>
-                            <a
-                                href="https://instagram.com/auragifts"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-center gap-4 rounded-2xl bg-white/70 backdrop-blur-xl border border-white shadow-[0_4px_20px_rgb(0,0,0,0.03)] p-4 transition-all hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] active:scale-[0.99] group min-h-[56px] touch-target"
-                            >
-                                <div className="h-12 w-12 rounded-full bg-pink-500/10 flex items-center justify-center shrink-0 group-hover:bg-pink-500/20 transition-colors">
-                                    <InstagramIcon className="h-6 w-6 text-pink-600" />
-                                </div>
-                                <div className="text-left">
-                                    <p className="font-bold text-neutral-900">Instagram</p>
-                                    <p className="text-sm text-neutral-500">Follow us</p>
-                                </div>
-                                <ChevronRight className="h-5 w-5 text-neutral-400 group-hover:text-[var(--landing-accent)] ml-auto transition-colors" />
-                            </a>
-                            <a
-                                href="tel:+971501234567"
-                                className="flex items-center gap-4 rounded-2xl bg-white/70 backdrop-blur-xl border border-white shadow-[0_4px_20px_rgb(0,0,0,0.03)] p-4 transition-all hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] active:scale-[0.99] group min-h-[56px] touch-target"
-                            >
-                                <div className="h-12 w-12 rounded-full bg-[var(--landing-accent)]/10 flex items-center justify-center shrink-0 group-hover:bg-[var(--landing-accent)]/20 transition-colors">
-                                    <Phone className="h-6 w-6 text-[var(--landing-accent)]" />
-                                </div>
-                                <div className="text-left">
-                                    <p className="font-bold text-neutral-900">Call</p>
-                                    <p className="text-sm text-neutral-500">+971 50 123 4567</p>
-                                </div>
-                                <ChevronRight className="h-5 w-5 text-neutral-400 group-hover:text-[var(--landing-accent)] ml-auto transition-colors" />
-                            </a>
+                            {quickLinks.whatsapp.url && (
+                                <a
+                                    href={quickLinks.whatsapp.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center gap-4 rounded-2xl bg-white/70 backdrop-blur-xl border border-white shadow-[0_4px_20px_rgb(0,0,0,0.03)] p-4 transition-all hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] active:scale-[0.99] group min-h-[56px] touch-target"
+                                >
+                                    <div className="h-12 w-12 rounded-full bg-emerald-500/10 flex items-center justify-center shrink-0 group-hover:bg-emerald-500/20 transition-colors">
+                                        <WhatsAppIcon className="h-6 w-6 text-emerald-600" />
+                                    </div>
+                                    <div className="text-left">
+                                        <p className="font-bold text-neutral-900">WhatsApp</p>
+                                        <p className="text-sm text-neutral-500">{quickLinks.whatsapp.label}</p>
+                                    </div>
+                                    <ChevronRight className="h-5 w-5 text-neutral-400 group-hover:text-[var(--landing-accent)] ml-auto transition-colors" />
+                                </a>
+                            )}
+                            {quickLinks.instagram.url && (
+                                <a
+                                    href={quickLinks.instagram.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center gap-4 rounded-2xl bg-white/70 backdrop-blur-xl border border-white shadow-[0_4px_20px_rgb(0,0,0,0.03)] p-4 transition-all hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] active:scale-[0.99] group min-h-[56px] touch-target"
+                                >
+                                    <div className="h-12 w-12 rounded-full bg-pink-500/10 flex items-center justify-center shrink-0 group-hover:bg-pink-500/20 transition-colors">
+                                        <InstagramIcon className="h-6 w-6 text-pink-600" />
+                                    </div>
+                                    <div className="text-left">
+                                        <p className="font-bold text-neutral-900">Instagram</p>
+                                        <p className="text-sm text-neutral-500">{quickLinks.instagram.label}</p>
+                                    </div>
+                                    <ChevronRight className="h-5 w-5 text-neutral-400 group-hover:text-[var(--landing-accent)] ml-auto transition-colors" />
+                                </a>
+                            )}
+                            {quickLinks.phone.number && (
+                                <a
+                                    href={`tel:${quickLinks.phone.number.replace(/\s/g, '')}`}
+                                    className="flex items-center gap-4 rounded-2xl bg-white/70 backdrop-blur-xl border border-white shadow-[0_4px_20px_rgb(0,0,0,0.03)] p-4 transition-all hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] active:scale-[0.99] group min-h-[56px] touch-target"
+                                >
+                                    <div className="h-12 w-12 rounded-full bg-[var(--landing-accent)]/10 flex items-center justify-center shrink-0 group-hover:bg-[var(--landing-accent)]/20 transition-colors">
+                                        <Phone className="h-6 w-6 text-[var(--landing-accent)]" />
+                                    </div>
+                                    <div className="text-left">
+                                        <p className="font-bold text-neutral-900">{quickLinks.phone.label}</p>
+                                        <p className="text-sm text-neutral-500">{quickLinks.phone.number}</p>
+                                    </div>
+                                    <ChevronRight className="h-5 w-5 text-neutral-400 group-hover:text-[var(--landing-accent)] ml-auto transition-colors" />
+                                </a>
+                            )}
                         </div>
                     </div>
                 </div>
