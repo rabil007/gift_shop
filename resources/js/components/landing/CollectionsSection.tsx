@@ -1,6 +1,6 @@
+import { Link, usePage } from '@inertiajs/react';
 import { Cake, Gift, Heart, Image } from 'lucide-react';
 import { ChevronRight } from 'lucide-react';
-import { Link, usePage } from '@inertiajs/react';
 
 const slugToIcon: Record<string, typeof Gift> = {
     hampers: Gift,

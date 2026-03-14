@@ -18,16 +18,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div className="min-h-screen bg-slate-50/50 flex font-sans text-slate-900 selection:bg-teal-600 selection:text-white">
             
             <aside className="w-64 bg-slate-900 text-slate-300 flex flex-col hidden md:flex shrink-0 border-r border-slate-800">
-                <div className="h-16 flex items-center px-6 border-b border-slate-800">
-                    <span className="text-xl font-bold tracking-tight text-white flex items-center gap-2">
+                <div className="h-16 flex items-center justify-center px-6 border-b border-slate-800">
+                    <span className="flex items-center justify-center">
                         {logo ? (
-                            <img src={logo} alt={name} className="h-6 w-6 w-auto object-contain" />
+                            <img src={logo} alt={name} className="h-6 w-auto object-contain" />
                         ) : (
                             <div className="w-6 h-6 rounded bg-teal-600 flex items-center justify-center">
                                 <span className="text-xs font-black text-white">A</span>
                             </div>
                         )}
-                        {name}<span className="font-medium text-slate-400"> Admin</span>
                     </span>
                 </div>
                 
@@ -95,17 +94,16 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 {/* Top Header */}
                 <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-4 sm:px-6 lg:px-8 shrink-0 relative z-10 shadow-sm shadow-slate-100">
                     {/* Mobile Logo */}
-                    <div className="flex items-center md:hidden gap-3">
-                        {logo ? (
-                            <img src={logo} alt={name} className="h-8 w-8 w-auto object-contain" />
-                        ) : (
-                            <div className="w-8 h-8 rounded bg-teal-600 flex items-center justify-center">
-                                <span className="text-sm font-black text-white">A</span>
-                            </div>
-                        )}
-                        <span className="text-lg font-bold tracking-tight text-slate-900">
-                            {name}<span className="font-medium text-slate-500"> Admin</span>
-                        </span>
+                    <div className="flex items-center justify-center md:hidden h-full absolute inset-x-0 top-0 pointer-events-none">
+                        <div className="pointer-events-auto">
+                            {logo ? (
+                                <img src={logo} alt={name} className="h-8 w-auto object-contain" />
+                            ) : (
+                                <div className="w-8 h-8 rounded bg-teal-600 flex items-center justify-center">
+                                    <span className="text-sm font-black text-white">A</span>
+                                </div>
+                            )}
+                        </div>
                     </div>
 
                     {/* Desktop Left: Breadcrumb/Search (Placeholder) */}

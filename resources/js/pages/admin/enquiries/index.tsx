@@ -1,6 +1,6 @@
 import { Head, Link, router, usePage } from '@inertiajs/react';
-import AdminLayout from '@/layouts/AdminLayout';
 import { Mail, Trash2, CheckCircle2, Circle, Eye, MailOpen } from 'lucide-react';
+import AdminLayout from '@/layouts/AdminLayout';
 
 interface Enquiry {
     id: number;

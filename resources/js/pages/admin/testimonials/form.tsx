@@ -1,6 +1,6 @@
 import { Head, Link, useForm } from '@inertiajs/react';
-import AdminLayout from '@/layouts/AdminLayout';
 import { ArrowLeft, Save } from 'lucide-react';
+import AdminLayout from '@/layouts/AdminLayout';
 
 interface Testimonial {
     id?: number;

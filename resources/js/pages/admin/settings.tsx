@@ -1,6 +1,6 @@
 import { Head, useForm, usePage } from '@inertiajs/react';
-import AdminLayout from '@/layouts/AdminLayout';
 import { Save, Building2, Check, Image, Link2 } from 'lucide-react';
+import AdminLayout from '@/layouts/AdminLayout';
 
 type QuickLinks = {
     whatsapp: { url: string; label: string };

@@ -1,6 +1,4 @@
 import { Link, useForm, usePage } from '@inertiajs/react';
-import { StorefrontHeader } from '@/components/StorefrontHeader';
-import { Logo } from '@/components/Logo';
 import {
     HeroSection,
     CollectionsSection,
@@ -10,6 +8,8 @@ import {
     AboutSection,
     EnquirySection,
 } from '@/components/landing';
+import { Logo } from '@/components/Logo';
+import { StorefrontHeader } from '@/components/StorefrontHeader';
 
 export default function Landing() {
     const { flash, auth, name, logo, featuredItems = [], heroItems = [], testimonials = [], features = [], cart_count = 0 } = usePage().props as unknown as { flash?: { success?: string }, auth: { user: any | null }, name: string, logo: string | null, featuredItems?: any[], heroItems?: any[], testimonials?: any[], features?: any[], cart_count?: number };

@@ -1,6 +1,6 @@
 import { Head, Link, router, usePage } from '@inertiajs/react';
-import AdminLayout from '@/layouts/AdminLayout';
 import { FolderTree, Plus, Pencil, Trash2, Check } from 'lucide-react';
+import AdminLayout from '@/layouts/AdminLayout';
 
 interface Category {
     id: number;

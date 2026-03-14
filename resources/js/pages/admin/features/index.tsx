@@ -1,7 +1,7 @@
 import { Head, Link, router, usePage } from '@inertiajs/react';
-import AdminLayout from '@/layouts/AdminLayout';
 import { Plus, Pencil, Trash2, CheckCircle2, XCircle, Sparkles } from 'lucide-react';
 import * as Icons from 'lucide-react';
+import AdminLayout from '@/layouts/AdminLayout';
 
 interface Feature {
     id: number;

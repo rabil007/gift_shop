@@ -1,6 +1,6 @@
 import { Head, useForm, Link } from '@inertiajs/react';
-import AdminLayout from '@/layouts/AdminLayout';
 import { Save, ArrowLeft } from 'lucide-react';
+import AdminLayout from '@/layouts/AdminLayout';
 
 interface Category {
     id: number;

@@ -1,6 +1,6 @@
 import { Head } from '@inertiajs/react';
-import AdminLayout from '@/layouts/AdminLayout';
 import { DollarSign, ShoppingCart, Users, TrendingUp, Package, PieChart } from 'lucide-react';
+import AdminLayout from '@/layouts/AdminLayout';
 
 interface StatsProps {
     totalOrders: number;

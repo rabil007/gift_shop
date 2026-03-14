@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
 import { Link } from '@inertiajs/react';
 import { Star } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 const SLIDE_INTERVAL_MS = 4000;
 const SLIDE_DURATION_MS = 600;

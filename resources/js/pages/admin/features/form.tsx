@@ -1,7 +1,7 @@
 import { Head, Link, useForm } from '@inertiajs/react';
-import AdminLayout from '@/layouts/AdminLayout';
 import { ArrowLeft, Save, Sparkles, Clock, Truck, ShieldCheck, Heart, Gift, Cake, Image as ImageIcon, Star, Compass, Award } from 'lucide-react';
 import * as Icons from 'lucide-react';
+import AdminLayout from '@/layouts/AdminLayout';
 
 interface Feature {
     id?: number;

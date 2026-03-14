@@ -1,9 +1,9 @@
-import { useState } from 'react';
 import { Link, usePage, router } from '@inertiajs/react';
 import { ArrowLeft, Share2, Star, Truck, ShieldCheck, Check, User, ShoppingCart } from 'lucide-react';
+import { useState } from 'react';
+import { Carousel } from '@/components/landing/Carousel';
 import { Logo } from '@/components/Logo';
 import { StorefrontHeader } from '@/components/StorefrontHeader';
-import { Carousel } from '@/components/landing/Carousel';
 
 interface ItemData {
     id: number;

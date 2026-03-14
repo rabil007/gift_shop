@@ -1,6 +1,6 @@
+import { Link } from '@inertiajs/react';
 import { ArrowUp } from 'lucide-react';
 import { Carousel } from './Carousel';
-import { Link } from '@inertiajs/react';
 
 interface FeaturedItem {
     id: number;

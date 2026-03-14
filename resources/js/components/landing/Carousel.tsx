@@ -1,5 +1,5 @@
-import { useRef, type ReactNode } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useRef, type ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 
 export function Carousel({ children, className }: { children: ReactNode; className?: string }) {

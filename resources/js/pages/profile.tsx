@@ -1,8 +1,8 @@
-import { useState, useRef } from 'react';
 import { Link, usePage, useForm, router } from '@inertiajs/react';
 import { ArrowLeft, User as UserIcon, LogOut, MapPin, Camera } from 'lucide-react';
-import { StorefrontHeader } from '@/components/StorefrontHeader';
+import { useState, useRef } from 'react';
 import { Logo } from '@/components/Logo';
+import { StorefrontHeader } from '@/components/StorefrontHeader';
 
 interface ProfileData {
     name: string;

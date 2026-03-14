@@ -1,6 +1,6 @@
 import { Head, Link, router, usePage } from '@inertiajs/react';
-import AdminLayout from '@/layouts/AdminLayout';
 import { Star, Plus, Pencil, Trash2, Check, CheckCircle2, XCircle } from 'lucide-react';
+import AdminLayout from '@/layouts/AdminLayout';
 
 interface Testimonial {
     id: number;

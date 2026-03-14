@@ -1,7 +1,7 @@
 import { Link, useForm, Head, usePage } from '@inertiajs/react';
 import { Mail, Lock, User, AlertCircle } from 'lucide-react';
+import type { FormEventHandler } from 'react';
 import { Logo } from '@/components/Logo';
-import { FormEventHandler } from 'react';
 
 export default function Register() {
     const { name, logo } = usePage().props as { name: string, logo: string | null };

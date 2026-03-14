@@ -1,6 +1,6 @@
-import { useState, useMemo } from 'react';
 import { Link, usePage } from '@inertiajs/react';
 import { Search } from 'lucide-react';
+import { useState, useMemo } from 'react';
 import { Logo } from '@/components/Logo';
 import { StorefrontHeader } from '@/components/StorefrontHeader';
 
