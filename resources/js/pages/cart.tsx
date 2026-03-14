@@ -105,9 +105,9 @@ export default function Cart() {
                                 </div>
                                 <p className="text-[10px] text-neutral-500 text-right mt-1">Taxes included. Delivery calculated at checkout.</p>
                             </div>
-                            <button className="w-full bg-[var(--landing-accent)] hover:bg-[var(--landing-accent-hover)] text-white rounded-none px-6 h-14 text-xs font-bold tracking-widest uppercase transition-all touch-target active:scale-[0.98]">
+                            <Link href="/checkout" className="w-full bg-[var(--landing-accent)] hover:bg-[var(--landing-accent-hover)] text-white rounded-none px-6 h-14 text-xs font-bold tracking-widest uppercase transition-all touch-target active:scale-[0.98] flex items-center justify-center">
                                 Proceed to Checkout
-                            </button>
+                            </Link>
                             <div className="mt-4 flex items-center justify-center gap-2 text-neutral-400">
                                 <Lock className="h-3 w-3" />
                                 <span className="text-[10px] uppercase tracking-widest font-bold">Secure Checkout</span>
